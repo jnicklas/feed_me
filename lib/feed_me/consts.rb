@@ -20,10 +20,7 @@ module FeedMe
       :feed_id => :undefined,
       :url => :link,
       :href => :undefined,
-      :generator => :generator,
-      :author => {
-        :email => :author
-      }
+      :generator => :generator
     }
   }
   
@@ -42,6 +39,14 @@ module FeedMe
       :url => :link,
       :content => :description
     }
-  }  
+  } 
+  
+  AUTHOR_PROPERTIES = {
+    :atom => {
+      :name => :name,
+      :uri => :uri,
+      :email => :email      
+    }
+  } 
   
 end

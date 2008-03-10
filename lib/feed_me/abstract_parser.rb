@@ -42,10 +42,6 @@ class FeedMe::AbstractParser
       return nil
     elsif p.class == Array
       return fetch("/#{p[0]}", root_node, p[1].to_sym)
-    elsif p.class == Hash
-      sub = self.dup
-      sub.properties = p
-      return sub
     elsif p
       return fetch("/#{p}", root_node)
     else

@@ -6,9 +6,9 @@ describe FeedMe::ItemParser do
 
   before :each do
     @atom_feed = FeedMe::FeedParser.open(fixture('welformed.atom'))
-    @atom = FeedMe::ItemParser.new(@atom_feed.root_node.search('/entry').first, :atom)
+    @atom = FeedMe::ItemParser.new(@atom_feed, @atom_feed.root_node.search('/entry').first, :atom)
     @rss2_feed = FeedMe::FeedParser.open(fixture('welformed.rss2'))
-    @rss2 = FeedMe::ItemParser.new(@rss2_feed.root_node.search('/item').first, :rss2)
+    @rss2 = FeedMe::ItemParser.new(@atom_feed, @rss2_feed.root_node.search('/item').first, :rss2)
   end
     
   describe '#title' do
@@ -60,7 +60,5 @@ describe FeedMe::ItemParser do
       @rss2.format.should == :rss2
     end
   end
-
-
 
 end

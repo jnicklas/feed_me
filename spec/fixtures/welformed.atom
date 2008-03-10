@@ -13,7 +13,8 @@
 		<updated>2008-03-07T20:41:10Z</updated>
 		<author>
 			<name>Jonas Nicklas</name>
-			<uri href="http://imaginary.host/students/jnicklas"/>
+			<uri>http://imaginary.host/students/jnicklas</uri>
+			<email>jonas.nicklas@imaginary.host</email>
 		</author>
 		<content type="html">Here be content</content>
 	</entry>
@@ -24,7 +25,8 @@
 		<updated>2008-03-07T20:40:58Z</updated>
 		<author>
 			<name>Jonas Nicklas</name>
-			<uri href="http://imaginary.host/students/jnicklas"/>
+			<uri>http://imaginary.host/students/jnicklas</uri>
+			<email>jonas.nicklas@imaginary.host</email>
 		</author>
 		<content type="html">Moar content!</content>
 	</entry>
@@ -35,7 +37,8 @@
 		<updated>2008-03-07T20:40:44Z</updated>
 		<author>
 			<name>Jonas Nicklas</name>
-			<uri href="http://imaginary.host/students/jnicklas"/>
+			<uri>http://imaginary.host/students/jnicklas</uri>
+			<email>jonas.nicklas@imaginary.host</email>
 		</author>
 		<content type="html">Also Content!</content>
 	</entry>
