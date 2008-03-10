@@ -28,6 +28,8 @@ class FeedMe::AbstractParser
     self.xml = xml
     self.format = format
     self.properties = self.class.properties
+    
+    append_methods
   end
   
   attr_accessor :xml, :format, :properties
@@ -36,16 +38,25 @@ class FeedMe::AbstractParser
   
   protected
   
-  def method_missing(method)
-    p = property(method)
-    if p == :undefined
-      return nil
-    elsif p.class == Array
-      return fetch("/#{p[0]}", root_node, p[1].to_sym)
-    elsif p
-      return fetch("/#{p}", root_node)
+  def append_methods
+    self.properties[format].each do |method, p|
+      unless respond_to?(method)
+        block = get_proc_for_property(p)
+        # meta programming magic
+        (class << self; self; end).module_eval do
+          define_method method, &block
+        end
+      end
+    end
+  end
+  
+  def get_proc_for_property(p)
+    if p.class == Array
+      return proc { fetch("/#{p[0]}", root_node, p[1].to_sym) }
+    elsif p != :undefined
+      return proc { fetch("/#{p}", root_node) }
     else
-      super
+      return proc { nil }
     end
   end
 
