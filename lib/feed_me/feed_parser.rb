@@ -22,22 +22,18 @@ module FeedMe
         item = xml.at(s)
         return item, f if item
       end
-    end  
+    end
   end
   
   class AtomFeedParser < FeedParser
     self.properties = FEED_PROPERTIES
-    
-    def format
-      :atom
-    end 
   end
   
   class Rss2FeedParser < FeedParser
     self.properties = FEED_PROPERTIES
     
-    def format
-      :rss2
-    end 
+    def author
+      fetch_rss_person("managingEditor")
+    end
   end
 end

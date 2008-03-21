@@ -57,6 +57,16 @@ describe FeedMe::FeedParser do
     end
   end
   
+  describe '#description' do
+    it "should be valid for an atom feed" do
+      @atom.description.should == "Monkey test feed"
+    end
+    
+    it "should be valid for an rss2 feed" do
+      @rss2.description.should == "Liftoff to Space Exploration."
+    end
+  end
+  
   describe '#feed_id' do
     it "should be valid for an atom feed" do
       @atom.feed_id.should == "tag:imaginary.host:nyheter"
@@ -116,7 +126,25 @@ describe FeedMe::FeedParser do
       @rss2.format.should == :rss2
     end
   end
-
-
+  
+  describe '#author.name' do
+    it "should be valid for an atom feed" do
+      @atom.author.name.should == "Frank"
+    end
+    
+    it "should be valid for an rss2 feed" do
+      @rss2.author.name.should == "Mary Jo"
+    end
+  end
+  
+  describe '#author.email' do
+    it "should be valid for an atom feed" do
+      @atom.author.email.should == "frank@imaginary.host"
+    end
+    
+    it "should be valid for an rss2 feed" do
+      @rss2.author.email.should == "editor@example.com"
+    end
+  end
 
 end

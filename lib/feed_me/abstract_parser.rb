@@ -4,30 +4,31 @@ class FeedMe::AbstractParser
     
     attr_accessor :properties, :root_nodes
     
-    def build(xml, format)
+    def build(xml, format, *args)
       # in a world with activesupport this would have been written as
       #   format_parser = (format.to_s.camelize + self.to_s).constantize
       camelized_format = format.to_s.split('_').map{ |w| w.capitalize }.join('')
       bare_class = self.to_s.split('::').last
-      
+            
       begin
         format_parser = FeedMe.const_get(camelized_format + bare_class)
-        if format_parser.is_a?(Class) and format_parser.ancestors.include?(self)
-          format_parser.new(xml)
-        else
-          self.new(xml, format)
-        end
       rescue NameError
-        self.new(xml, format)
       end
+
+      if format_parser.is_a?(Class) and format_parser.ancestors.include?(self)
+        return format_parser.new(xml, format, *args)
+      else
+        return self.new(xml, format, *args)
+      end
+
     end
     
   end
 
-  def initialize(xml, format = nil)
+  def initialize(xml, format)
     self.xml = xml
     self.format = format
-    self.properties = self.class.properties
+    self.properties = self.class.properties[self.format]
     
     append_methods
   end
@@ -38,10 +39,21 @@ class FeedMe::AbstractParser
   
   protected
   
+  def fetch_rss_person(selector)
+    item = fetch(selector)
+    if(item)
+      email, name = item.split(/\s+/, 2)
+      name = name.match( /\((.*?)\)/ ).to_a[1] # strip parentheses
+    else
+      name, email = nil
+    end
+    FeedMe::SimpleStruct.new(:email => email, :name => name, :uri => nil)
+  end
+  
   def append_methods
-    self.properties[format].each do |method, p|
+    self.properties.each do |method, p|
       unless respond_to?(method)
-        block = get_proc_for_property(p)
+        block = get_proc_for_property(method, p)
         # meta programming magic
         (class << self; self; end).module_eval do
           define_method method, &block
@@ -50,18 +62,27 @@ class FeedMe::AbstractParser
     end
   end
   
-  def get_proc_for_property(p)
+  def get_proc_for_property(method, p)
     if p.class == Array
-      return proc { fetch("/#{p[0]}", root_node, p[1].to_sym) }
+      return caching_proc(method, &proc { fetch("/#{p[0]}", root_node, p[1].to_sym) })
+    elsif p.class == Hash
+      return caching_proc(method, &proc { FeedMe::FeedStruct.new(root_node, p) })
     elsif p != :undefined
-      return proc { fetch("/#{p}", root_node) }
+      return caching_proc(method, &proc { fetch("/#{p}", root_node) })
     else
       return proc { nil }
     end
   end
-
-  def property(name)
-    self.properties[format][name]
+  
+  def caching_proc(name, &block)
+    proc do
+      ivar = instance_variable_get("@#{name}")
+      unless ivar
+        result = yield
+        instance_variable_set("@#{name}", result)
+        return result
+      end
+    end
   end
 
   def fetch(selector, search_in = xml, method = :inner_html)

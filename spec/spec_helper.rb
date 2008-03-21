@@ -1,6 +1,9 @@
 $TESTING=true
 $:.push File.join(File.dirname(__FILE__), '..', 'lib')
 
+require 'rubygems'
+require 'ruby-debug'
+
 module Fixtures
   
   def fixture_path

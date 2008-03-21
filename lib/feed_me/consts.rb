@@ -12,7 +12,13 @@ module FeedMe
       :feed_id => :id,
       :url => ["link[@rel=alternate]", :href],
       :href => ["link[@rel=self]", :href],
-      :generator => :generator
+      :description => :subtitle,
+      :generator => :generator,
+      :author => {
+        :email => 'author/email',
+        :name => 'author/name',
+        :uri => 'author/uri'
+      }
     },
     :rss2 => {
       :title => :title,
@@ -20,7 +26,11 @@ module FeedMe
       :feed_id => :undefined,
       :url => :link,
       :href => :undefined,
-      :generator => :generator
+      :description => :description,
+      :generator => :generator,
+      :author => {
+        :email => :author
+      }
     }
   }
   
@@ -30,7 +40,12 @@ module FeedMe
       :updated_at => :updated,
       :item_id => :id,
       :url => ["link[@rel=alternate]", :href],
-      :content => :content
+      :content => :content,
+      :author => {
+        :email => 'author/email',
+        :name => 'author/name',
+        :uri => 'author/uri'
+      }
     },
     :rss2 => {
       :title => :title,
@@ -45,7 +60,7 @@ module FeedMe
     :atom => {
       :name => :name,
       :uri => :uri,
-      :email => :email      
+      :email => :email
     }
   } 
   
