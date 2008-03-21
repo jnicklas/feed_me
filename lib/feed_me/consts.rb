@@ -8,7 +8,7 @@ module FeedMe
   FEED_PROPERTIES = {
     :atom => {
       :title => :title,
-      :updated_at => :updated,
+      :updated_at => [:updated, :time],
       :feed_id => :id,
       :url => ["link[@rel=alternate]", :href],
       :href => ["link[@rel=self]", :href],
@@ -22,7 +22,7 @@ module FeedMe
     },
     :rss2 => {
       :title => :title,
-      :updated_at => :lastBuildDate,
+      :updated_at => [:lastBuildDate, :time],
       :feed_id => :undefined,
       :url => :link,
       :href => :undefined,
@@ -35,7 +35,7 @@ module FeedMe
   ITEM_PROPERTIES = {
     :atom => {
       :title => :title,
-      :updated_at => :updated,
+      :updated_at => [:updated, :time],
       :item_id => :id,
       :url => ["link[@rel=alternate]", :href],
       :content => :content,

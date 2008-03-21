@@ -95,7 +95,20 @@ class FeedMe::AbstractParser
 
   def fetch(selector, search_in = xml, method = :inner_html)
     item = search_in.at(selector)
-    item[method] or item.try(method) if item
+    
+    self.try("extract_" + method.to_s, item) if item
+  end
+  
+  def extract_inner_html(item)
+    item.inner_html
+  end
+  
+  def extract_href(item)
+    item[:href]
+  end
+  
+  def extract_time(item)
+    Time.parse(item.inner_html).utc
   end
   
 end

@@ -1,9 +1,6 @@
 # make sure we're running inside Merb
 if defined?(Merb::Plugins)
-
   dependency 'hpricot'
-  
-  Merb::Plugins.add_rakefiles "feed_me/merbtasks"
 else
   require 'rubygems'
   require 'hpricot'
