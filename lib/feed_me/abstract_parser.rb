@@ -33,6 +33,14 @@ class FeedMe::AbstractParser
     append_methods
   end
   
+  def to_hash
+    hash = {}
+    self.properties.each do |method, p|
+      hash[method] = self.send(method)
+    end
+    return hash
+  end
+  
   attr_accessor :xml, :format, :properties
 
   alias_method :root_node, :xml
@@ -43,7 +51,7 @@ class FeedMe::AbstractParser
     item = fetch(selector)
     if(item)
       email, name = item.split(/\s+/, 2)
-      name = name.match( /\((.*?)\)/ ).to_a[1] # strip parentheses
+      name = name.match( /\((.*?)\)/ ).to_a[1] if name # strip parentheses
     else
       name, email = nil
     end

@@ -1,5 +1,30 @@
 require 'rubygems'
 require 'rake/gempackagetask'
+require 'spec/rake/spectask'
+
+file_list = FileList['spec/*_spec.rb']
+
+namespace :spec do
+  desc "Run all examples with RCov"
+  Spec::Rake::SpecTask.new('rcov') do |t|
+    t.spec_files = file_list
+    t.rcov = true
+    t.rcov_dir = "doc/coverage"
+    t.rcov_opts = ['--exclude', 'spec']
+  end
+  
+  desc "Generate an html report"
+  Spec::Rake::SpecTask.new('report') do |t|
+    t.spec_files = file_list
+    t.rcov_opts = ['--exclude', 'spec']
+    t.spec_opts = ["--format", "html:doc/reports/specs.html"]
+    t.fail_on_error = false
+  end
+
+end
+
+desc 'Default: run specs.'
+task :default => 'spec:rcov'
 
 PLUGIN = "feed_me"
 NAME = "feed_me"

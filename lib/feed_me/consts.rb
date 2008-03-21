@@ -28,9 +28,7 @@ module FeedMe
       :href => :undefined,
       :description => :description,
       :generator => :generator,
-      :author => {
-        :email => :author
-      }
+      :author => :special
     }
   }
   
@@ -52,7 +50,8 @@ module FeedMe
       :updated_at => :undefined,
       :item_id => :guid,
       :url => :link,
-      :content => :description
+      :content => :description,
+      :author => :special
     }
   } 
   
