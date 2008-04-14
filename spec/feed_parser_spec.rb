@@ -157,6 +157,34 @@ describe FeedMe::FeedParser do
     end
   end
   
+  describe '#entries' do
+    it "should return an array of entries for an atom feed" do
+      @atom.entries.should be_an_instance_of(Array)
+    end
+    
+    it "should have the correct length for an atom feed" do
+      @atom.should have(3).entries
+    end
+    
+    it "should return items that are properly parsed for an atom feed" do
+      @atom.entries.first.title.should == "First title"
+      @atom.entries.first.url.should == "http://imaginary.host/posts/3"
+    end
+    
+    it "should return an array of entries for an rss2 feed" do
+      @rss2.entries.should be_an_instance_of(Array)
+    end
+    
+    it "should have the correct length for an rss2 feed" do
+      @rss2.should have(4).entries
+    end
+    
+    it "should return items that are properly parsed for an rss2 feed" do
+      @rss2.entries.first.title.should == "Star City"
+      @rss2.entries.first.url.should == "http://liftoff.msfc.nasa.gov/news/2003/news-starcity.asp"
+    end
+  end
+  
   describe '#to_hash' do
     it "should serialize the title of an atom feed" do
       @atom.to_hash[:title].should == "Test feed"
@@ -184,6 +212,12 @@ describe FeedMe::FeedParser do
     
     it "should serialize the generator of an atom feed" do
       @atom.to_hash[:generator].should == "Roll your own"
+    end
+    
+    it "should serialize the entries of an atom feed" do
+      @atom.to_hash[:entries].should be_an_instance_of(Array)
+      @atom.to_hash[:entries].first.title.should == "First title"
+      @atom.to_hash[:entries].first.url.should == "http://imaginary.host/posts/3"
     end
     
     it "should serialize the author of an atom feed" do
@@ -222,6 +256,12 @@ describe FeedMe::FeedParser do
       @rss2.to_hash[:generator].should == "Weblog Editor 2.0"
     end
     
+    it "should serialize the entries of an rss2 feed" do
+      @rss2.to_hash[:entries].should be_an_instance_of(Array)
+      @rss2.to_hash[:entries].first.title.should == "Star City"
+      @rss2.to_hash[:entries].first.url.should == "http://liftoff.msfc.nasa.gov/news/2003/news-starcity.asp"
+    end
+    
     it "should serialize the author of an rss2 feed" do
       
       author = @rss2.to_hash[:author]
@@ -229,34 +269,6 @@ describe FeedMe::FeedParser do
       author.name.should == "Mary Jo"
       author.email.should == "editor@example.com"
       author.uri.should be_nil
-    end
-  end
-  
-  describe '#entries' do
-    it "should return an array of entries for an atom feed" do
-      @atom.entries.should be_an_instance_of(Array)
-    end
-    
-    it "should have the correct length for an atom feed" do
-      @atom.should have(3).entries
-    end
-    
-    it "should return items that are properly parsed for an atom feed" do
-      @atom.entries.first.title.should == "First title"
-      @atom.entries.first.url.should == "http://imaginary.host/posts/3"
-    end
-    
-    it "should return an array of entries for an rss2 feed" do
-      @rss2.entries.should be_an_instance_of(Array)
-    end
-    
-    it "should have the correct length for an rss2 feed" do
-      @rss2.should have(4).entries
-    end
-    
-    it "should return items that are properly parsed for an rss2 feed" do
-      @rss2.entries.first.title.should == "Star City"
-      @rss2.entries.first.url.should == "http://liftoff.msfc.nasa.gov/news/2003/news-starcity.asp"
     end
   end
 

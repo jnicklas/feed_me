@@ -18,7 +18,8 @@ module FeedMe
         :email => 'author/email',
         :name => 'author/name',
         :uri => 'author/uri'
-      }
+      },
+      :entries => :special
     },
     :rss2 => {
       :title => :title,
@@ -28,7 +29,8 @@ module FeedMe
       :href => :undefined,
       :description => :description,
       :generator => :generator,
-      :author => :special
+      :author => :special,
+      :entries => :special
     }
   }
   
