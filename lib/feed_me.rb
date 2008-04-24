@@ -18,6 +18,13 @@ unless nil.respond_to? :try
 end
 
 module FeedMe
+  def self.parse(feed)
+    FeedMe::FeedParser.parse(feed)
+  end
+  
+  def self.open(file)
+    FeedMe::FeedParser.parse(file)
+  end
 end
 
 ['consts', 'abstract_parser', 'feed_struct', 'simple_struct',

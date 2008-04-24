@@ -9,7 +9,7 @@ Use it like this:
 
     file = File.read('some_feed.atom')
     
-    feed = FeedMe::FeedParser.parse(file)
+    feed = FeedMe.parse(file)
     
     feed.title
     feed.author.name

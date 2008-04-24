@@ -18,6 +18,8 @@ module FeedMe
         root_node, format = self.identify(xml)
         self.build(root_node, format)
       end
+      
+      protected
   
       def identify(xml)
         FeedMe::ROOT_NODES.each do |f, s|
