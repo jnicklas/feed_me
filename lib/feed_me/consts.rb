@@ -49,7 +49,7 @@ module FeedMe
     },
     :rss2 => {
       :title => :title,
-      :updated_at => :undefined,
+      :updated_at => [:pubDate, :time],
       :item_id => :guid,
       :url => :link,
       :content => :description,
