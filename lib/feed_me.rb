@@ -5,6 +5,7 @@ else
   require 'rubygems'
   require 'hpricot'
 end
+require 'time'
 
 unless nil.respond_to? :try
   # the ultimate duck
