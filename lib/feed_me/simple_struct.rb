@@ -1,7 +1,7 @@
 module FeedMe
-  
+
   class SimpleStruct
-    
+
     def initialize(hash = {})
       (class << self; self; end).module_eval do
         hash.each do |method, result|
@@ -9,7 +9,7 @@ module FeedMe
         end
       end
     end
-    
+
   end
-  
+
 end

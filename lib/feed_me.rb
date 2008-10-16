@@ -22,7 +22,7 @@ module FeedMe
   def self.parse(feed)
     FeedMe::FeedParser.parse(feed)
   end
-  
+
   def self.open(file)
     FeedMe::FeedParser.parse(file)
   end

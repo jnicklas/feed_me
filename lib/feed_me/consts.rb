@@ -1,10 +1,10 @@
 module FeedMe
-  
+
   ROOT_NODES = {
     :atom => "//feed[@xmlns='http://www.w3.org/2005/Atom']",
     :rss2 => "//rss[@version=2.0]/channel"
   }
-  
+
   FEED_PROPERTIES = {
     :atom => {
       :title => :title,
@@ -33,7 +33,7 @@ module FeedMe
       :entries => :special
     }
   }
-  
+
   ITEM_PROPERTIES = {
     :atom => {
       :title => :title,
@@ -55,14 +55,14 @@ module FeedMe
       :content => :description,
       :author => :special
     }
-  } 
-  
+  }
+
   AUTHOR_PROPERTIES = {
     :atom => {
       :name => :name,
       :uri => :uri,
       :email => :email
     }
-  } 
-  
+  }
+
 end
