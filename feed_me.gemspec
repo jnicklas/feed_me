@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = [["Jonas Nicklas", "Jonathan Stott"]]
+  s.authors = ["Jonas Nicklas", "Jonathan Stott"]
   s.autorequire = %q{feed_me}
   s.date = %q{2008-11-16}
   s.description = %q{Nice and simple RSS and atom feed parsing built on hpricot}
