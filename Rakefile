@@ -51,6 +51,13 @@ spec = Gem::Specification.new do |s|
   s.files = %w(LICENSE README Rakefile TODO) + Dir.glob("{lib,specs}/**/*")
 end
 
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new(spec)
+rescue
+  puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install namelessjon-jeweler -s http://gems.github.com"
+end
+
 Rake::GemPackageTask.new(spec) do |pkg|
   pkg.gem_spec = spec
 end
