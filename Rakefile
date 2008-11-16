@@ -28,16 +28,16 @@ task :default => 'spec:rcov'
 
 PLUGIN = "feed_me"
 NAME = "feed_me"
-VERSION = "0.0.1"
-AUTHOR = "Jonas Nicklas"
+VERSION = "0.0.2"
+AUTHOR = ["Jonas Nicklas", "Jonathan Stott"]
 EMAIL = "jonas.nicklas@gmail.com"
-HOMEPAGE = "http://merb-plugins.rubyforge.org/feed_me/"
-SUMMARY = "Merb plugin that provides ..."
+HOMEPAGE = "http://github.com/jnicklas/feed_me"
+SUMMARY = "Nice and simple RSS and atom feed parsing built on hpricot"
 
 spec = Gem::Specification.new do |s|
   s.name = NAME
-  s.version = VERSION
   s.platform = Gem::Platform::RUBY
+  s.version = VERSION
   s.has_rdoc = true
   s.extra_rdoc_files = ["README", "LICENSE", 'TODO']
   s.summary = SUMMARY
@@ -47,6 +47,7 @@ spec = Gem::Specification.new do |s|
   s.homepage = HOMEPAGE
   s.require_path = 'lib'
   s.autorequire = PLUGIN
+  s.add_dependency('hpricot')
   s.files = %w(LICENSE README Rakefile TODO) + Dir.glob("{lib,specs}/**/*")
 end
 
