@@ -90,6 +90,7 @@ class FeedMe::AbstractParser
         instance_variable_set("@#{name}", result)
         return result
       end
+      ivar
     end
   end
 

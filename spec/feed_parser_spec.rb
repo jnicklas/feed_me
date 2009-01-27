@@ -182,6 +182,13 @@ describe FeedMe::FeedParser do
     it "should return items that are properly parsed for an rss2 feed" do
       @rss2.entries.first.title.should == "Star City"
       @rss2.entries.first.url.should == "http://liftoff.msfc.nasa.gov/news/2003/news-starcity.asp"
+      @rss2.entries.first.item_id.should == "http://liftoff.msfc.nasa.gov/2003/06/03.html#item573"
+    end
+
+    it "should allow items to be read more than once" do
+      item = @rss2.entries.first
+      item.item_id.should == "http://liftoff.msfc.nasa.gov/2003/06/03.html#item573"
+      item.item_id.should == "http://liftoff.msfc.nasa.gov/2003/06/03.html#item573"
     end
   end
 
