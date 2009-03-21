@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.description = %q{Nice and simple RSS and atom feed parsing built on hpricot}
   s.email = %q{jonas.nicklas@gmail.com}
   s.extra_rdoc_files = ["README", "LICENSE", "TODO"]
-  s.files = ["LICENSE", "README", "Rakefile", "TODO", "lib/feed_me", "lib/feed_me/consts.rb", "lib/feed_me/feed_struct.rb", "lib/feed_me/item_parser.rb", "lib/feed_me/merbtasks.rb", "lib/feed_me/simple_struct.rb", "lib/feed_me/abstract_parser.rb", "lib/feed_me/feed_parser.rb", "lib/feed_me.rb"]
+  s.files = ["LICENSE", "README", "Rakefile", "TODO", "lib/feed_me", "lib/feed_me/consts.rb", "lib/feed_me/feed_struct.rb", "lib/feed_me/item_parser.rb", "lib/feed_me/merbtasks.rb", "lib/feed_me/simple_struct.rb",  "lib/feed_me/feed_parser.rb", "lib/feed_me/abstract_parser.rb","lib/feed_me.rb"]
   s.has_rdoc = true
   s.homepage = %q{http://github.com/jnicklas/feed_me}
   s.rdoc_options = ["--inline-source", "--charset=UTF-8"]
