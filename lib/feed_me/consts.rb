@@ -53,7 +53,8 @@ module FeedMe
       :item_id => :guid,
       :url => :link,
       :content => :description,
-      :author => :special
+      :author => :special,
+      :categories => [:category, :array]
     }
   }
 

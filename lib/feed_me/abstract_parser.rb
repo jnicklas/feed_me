@@ -95,9 +95,13 @@ class FeedMe::AbstractParser
   end
 
   def fetch(selector, search_in = xml, method = :inner_html)
-    item = search_in.at(selector)
+    item = search_in.search(selector)
 
-    self.try("extract_" + method.to_s, item) if item
+    unless method == :array
+      self.try("extract_" + method.to_s, item.first) unless item.empty?
+    else
+      item.map { |i| self.try("extract_inner_html", i) }
+    end
   end
 
   def extract_inner_html(item)

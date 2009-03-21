@@ -18,7 +18,9 @@
 			<author>da_man@example.com (Chuck Norris)</author>
 			<description>This is content</description>
 			<pubDate>Tue, 03 Jun 2003 09:39:21 GMT</pubDate>
-			<guid>http://liftoff.msfc.nasa.gov/2003/06/03.html#item573</guid>
+            <guid>http://liftoff.msfc.nasa.gov/2003/06/03.html#item573</guid>
+            <category>news</category>
+            <category>chuck</category>
 		</item>
 		<item>
 			<title>Space Exploration</title>
