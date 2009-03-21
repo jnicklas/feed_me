@@ -16,6 +16,8 @@ module FeedMe
         xml = Hpricot.XML(feed)
 
         root_node, format = self.identify(xml)
+        raise InvalidFeedFormat if format.nil?
+
         self.build(root_node, format)
       end
 

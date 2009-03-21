@@ -19,6 +19,8 @@ unless nil.respond_to? :try
 end
 
 module FeedMe
+  class InvalidFeedFormat < StandardError ; end
+
   def self.parse(feed)
     FeedMe::FeedParser.parse(feed)
   end

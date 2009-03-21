@@ -36,6 +36,19 @@ describe FeedMe::FeedParser do
     end
 
     it_should_behave_like "all parsing methods"
+
+    describe "with bad input" do
+      it "should raise on an empty body" do
+        lambda { FeedMe::FeedParser.parse("") }.should raise_error(FeedMe::InvalidFeedFormat)
+      end
+
+      it "should raise on a body with non-recognised xml" do
+        lambda {
+          FeedMe::FeedParser.parse(%Q|<?xml version="1.0" encoding="UTF-8"?>"<foo>bar</foo>|)
+        }.should raise_error(FeedMe::InvalidFeedFormat)
+      end
+    end
+
   end
 
   describe ".open" do
