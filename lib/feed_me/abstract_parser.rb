@@ -3,6 +3,25 @@ class FeedMe::AbstractParser
   class << self
     
     attr_accessor :properties, :root_nodes
+
+    def root_node(node=nil)
+      @root_node = node if node
+      @root_node
+    end
+
+    def property(name, *args)
+      options = args.last.is_a?(Hash) ? args.pop : {}
+      options[:path] ||= args.empty? ? name.to_s : args.first
+
+      @properties ||= {}
+      @properties[name.to_sym] = options
+
+      class_eval <<-RUBY
+        def #{name}
+          get_property(:#{name})
+        end
+      RUBY
+    end
     
   end
 
@@ -23,25 +42,6 @@ class FeedMe::AbstractParser
   attr_accessor :xml, :format, :properties
 
   alias_method :root_node, :xml
-  
-  def self.root_node(node=nil)
-    @root_node = node if node
-    @root_node
-  end
-  
-  def self.property(name, *args)
-    options = args.last.is_a?(Hash) ? args.pop : {}
-    options[:path] ||= args.empty? ? name.to_s : args.first
-    
-    @properties ||= {}
-    @properties[name.to_sym] = options
-    
-    class_eval <<-RUBY
-      def #{name}
-        get_property(:#{name})
-      end
-    RUBY
-  end
   
   protected
   
