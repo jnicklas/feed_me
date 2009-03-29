@@ -62,42 +62,39 @@ class FeedMe::AbstractParser
   def get_property(name)
     property = self.class.properties[name]
     
-    if property[:as]
-      fetch("/#{property[:path]}", root_node, property[:as])
-    elsif property[:from]
-      fetch("/#{property[:path]}", root_node, property[:from])
-    elsif property[:path] != :undefined
-      fetch("/#{property[:path]}", root_node)
+    node = xml.at("/#{property[:path]}")
+
+    if node
+      result = extract_result(node, property[:from])
+      result = cast_result(result, property[:as])
+    end
+  end
+  
+  def extract_result(node, from)
+    if from
+      node[from]
+    else
+      node.inner_html
+    end
+  end
+  
+  def cast_result(result, as)
+    if as == :time
+      DateTime.parse(result)
+    else
+      result
     end
   end
   
   def fetch_rss_person(selector)
-    item = fetch(selector)
+    item = xml.at("/#{selector}")
     if(item)
-      email, name = item.split(/\s+/, 2)
+      email, name = item.inner_html.split(/\s+/, 2)
       name = name.match( /\((.*?)\)/ ).to_a[1] if name # strip parentheses
     else
       name, email = nil
     end
     FeedMe::SimpleStruct.new(:email => email, :name => name, :uri => nil)
-  end
-
-  def fetch(selector, search_in = xml, method = :inner_html)
-    item = search_in.at(selector)
-    
-    self.try("extract_" + method.to_s, item) if item
-  end
-  
-  def extract_inner_html(item)
-    item.inner_html
-  end
-  
-  def extract_href(item)
-    item[:href]
-  end
-  
-  def extract_time(item)
-    DateTime.parse(item.inner_html)
   end
   
 end
