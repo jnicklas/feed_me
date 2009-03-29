@@ -25,9 +25,8 @@ class FeedMe::AbstractParser
     
   end
 
-  def initialize(xml, format)
+  def initialize(xml)
     self.xml = xml
-    self.format = format
     self.properties = self.class.properties
   end
   
@@ -39,11 +38,11 @@ class FeedMe::AbstractParser
     return hash
   end
   
-  attr_accessor :xml, :format, :properties
+  attr_accessor :xml, :properties
 
   alias_method :root_node, :xml
   
-  protected
+private
   
   def get_property(name)
     property = self.class.properties[name]

@@ -23,7 +23,7 @@ module FeedMe
         xml = Hpricot.XML(feed)
         parsers.each do |parser|
           node = xml.at(parser.root_node)
-          return parser.new(node, :blah) if node
+          return parser.new(node) if node
         end
       end
     
@@ -45,12 +45,12 @@ module FeedMe
     
     def entries
       xml.search('entry').map do |el|
-        AtomItemParser.new(el, self.format, self)
+        AtomItemParser.new(el, self)
       end
     end
     
     def author
-      AtomPersonParser.new(xml, :atom)
+      AtomPersonParser.new(xml)
     end
   end
   
@@ -69,7 +69,7 @@ module FeedMe
     
     def entries
       xml.search('item').map do |el|
-        Rss2ItemParser.new(el, self.format, self)
+        Rss2ItemParser.new(el, self)
       end
     end
     

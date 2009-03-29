@@ -4,8 +4,8 @@ module FeedMe
   
     attr_accessor :feed
     
-    def initialize(xml, format, feed)
-      super(xml, format)
+    def initialize(xml, feed)
+      super(xml)
       self.feed = feed
     end
   
@@ -20,7 +20,7 @@ module FeedMe
     property :author, :special
     
     def author
-      AtomPersonParser.new(xml, :atom)
+      AtomPersonParser.new(xml)
     end
   end
   
