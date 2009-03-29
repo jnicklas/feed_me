@@ -14,11 +14,7 @@ module FeedMe
       :href => ["link[@rel=self]", :href],
       :description => :subtitle,
       :generator => :generator,
-      :author => {
-        :email => 'author/email',
-        :name => 'author/name',
-        :uri => 'author/uri'
-      },
+      :author => :special,
       :entries => :special
     },
     :rss2 => {
@@ -41,11 +37,7 @@ module FeedMe
       :item_id => :id,
       :url => ["link[@rel=alternate]", :href],
       :content => :content,
-      :author => {
-        :email => 'author/email',
-        :name => 'author/name',
-        :uri => 'author/uri'
-      }
+      :author => :special
     },
     :rss2 => {
       :title => :title,
@@ -60,9 +52,9 @@ module FeedMe
 
   AUTHOR_PROPERTIES = {
     :atom => {
-      :name => :name,
-      :uri => :uri,
-      :email => :email
+      :email => 'author/email',
+      :name => 'author/name',
+      :uri => 'author/uri'
     }
   }
 

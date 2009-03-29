@@ -1,15 +1,15 @@
 class FeedMe::AbstractParser
-
+  
   class << self
-
+    
     attr_accessor :properties, :root_nodes
-
+    
     def build(xml, format, *args)
       # in a world with activesupport this would have been written as
       #   format_parser = (format.to_s.camelize + self.to_s).constantize
       camelized_format = format.to_s.split('_').map{ |w| w.capitalize }.join('')
       bare_class = self.to_s.split('::').last
-
+            
       begin
         format_parser = FeedMe.const_get(camelized_format + bare_class)
       rescue NameError
@@ -22,17 +22,15 @@ class FeedMe::AbstractParser
       end
 
     end
-
+    
   end
 
   def initialize(xml, format)
     self.xml = xml
     self.format = format
-    self.properties = self.class.properties[self.format]
-
-    append_methods
+    self.properties = self.class.properties
   end
-
+  
   def to_hash
     hash = {}
     self.properties.each do |method, p|
@@ -40,13 +38,18 @@ class FeedMe::AbstractParser
     end
     return hash
   end
-
+  
   attr_accessor :xml, :format, :properties
 
   alias_method :root_node, :xml
-
+  
+  def self.properties=(new_properties)
+    @properties = new_properties
+    append_methods(@properties)
+  end
+  
   protected
-
+  
   def fetch_rss_person(selector)
     item = fetch(selector)
     if(item)
@@ -57,63 +60,42 @@ class FeedMe::AbstractParser
     end
     FeedMe::SimpleStruct.new(:email => email, :name => name, :uri => nil)
   end
-
-  def append_methods
-    self.properties.each do |method, p|
-      unless respond_to?(method)
-        block = get_proc_for_property(method, p)
-        # meta programming magic
-        (class << self; self; end).module_eval do
-          define_method method, &block
-        end
-      end
+  
+  def self.append_methods(properties)
+    properties.each do |method, p|
+      block = get_proc_for_property(method, p)
+      define_method method, &block
     end
   end
-
-  def get_proc_for_property(method, p)
+  
+  def self.get_proc_for_property(method, p)
     if p.class == Array
-      return caching_proc(method, &proc { fetch("/#{p[0]}", root_node, p[1].to_sym) })
+      return proc { fetch("/#{p[0]}", root_node, p[1].to_sym) }
     elsif p.class == Hash
-      return caching_proc(method, &proc { FeedMe::FeedStruct.new(root_node, p) })
+      return proc { FeedMe::FeedStruct.new(root_node, p) }
     elsif p != :undefined
-      return caching_proc(method, &proc { fetch("/#{p}", root_node) })
+      return proc { fetch("/#{p}", root_node) }
     else
       return proc { nil }
     end
   end
 
-  def caching_proc(name, &block)
-    proc do
-      ivar = instance_variable_get("@#{name}")
-      unless ivar
-        result = yield
-        instance_variable_set("@#{name}", result)
-        return result
-      end
-      ivar
-    end
-  end
-
   def fetch(selector, search_in = xml, method = :inner_html)
-    item = search_in.search(selector)
-
-    unless method == :array
-      self.try("extract_" + method.to_s, item.first) unless item.empty?
-    else
-      item.map { |i| self.try("extract_inner_html", i) }
-    end
+    item = search_in.at(selector)
+    
+    self.try("extract_" + method.to_s, item) if item
   end
-
+  
   def extract_inner_html(item)
     item.inner_html
   end
-
+  
   def extract_href(item)
     item[:href]
   end
-
+  
   def extract_time(item)
-    Time.parse(item.inner_html).utc
+    DateTime.parse(item.inner_html)
   end
-
+  
 end
