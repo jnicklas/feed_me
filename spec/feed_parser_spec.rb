@@ -5,13 +5,11 @@ require 'feed_me'
 describe "all parsing methods", :shared => true do
   it "should identify an atom feed" do
     @atom.should be_an_instance_of(FeedMe::AtomFeedParser)
-    @atom.format.should == :atom
     @atom.root_node.xpath == "//feed[@xmlns='http://www.w3.org/2005/Atom']"
   end
 
   it "should identify an rss2 feed" do
     @rss2.should be_an_instance_of(FeedMe::Rss2FeedParser)
-    @rss2.format.should == :rss2
     @rss2.root_node.xpath == "//rss[@version=2.0]/channel"
   end
 end

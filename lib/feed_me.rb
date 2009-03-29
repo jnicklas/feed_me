@@ -30,7 +30,7 @@ module FeedMe
   end
 end
 
-['consts', 'abstract_parser', 'feed_struct', 'simple_struct',
+['abstract_parser', 'feed_struct', 'simple_struct',
   'feed_parser', 'item_parser', 'author_parser'].each do |f|
   require File.join(File.dirname(__FILE__), 'feed_me', f)
 end

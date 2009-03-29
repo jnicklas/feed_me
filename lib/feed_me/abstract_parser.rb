@@ -43,6 +43,11 @@ class FeedMe::AbstractParser
 
   alias_method :root_node, :xml
   
+  def self.root_node(node=nil)
+    @root_node = node if node
+    @root_node
+  end
+  
   def self.property(name, *args)
     options = args.last.is_a?(Hash) ? args.pop : {}
     options[:path] ||= args.empty? ? name.to_s : args.first

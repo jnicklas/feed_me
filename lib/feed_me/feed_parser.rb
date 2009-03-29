@@ -4,6 +4,14 @@ module FeedMe
   
     class << self
     
+      def parsers
+        @parsers ||= []
+      end
+    
+      def inherited(subclass)
+        parsers << subclass
+      end
+    
       def open(file)
         self.parse(Kernel.open(file).read)
       end
@@ -12,17 +20,16 @@ module FeedMe
       # then returns a parser object
       def parse(feed)
         xml = Hpricot.XML(feed)
-    
-        root_node, format = self.identify(xml)
-        self.build(root_node, format)
+        parser, node = self.identify(xml)
+        parser.new(node, :blah)
       end
       
       protected
   
       def identify(xml)
-        FeedMe::ROOT_NODES.each do |f, s|
-          item = xml.at(s)
-          return item, f if item
+        parsers.each do |parser|
+          node = xml.at(parser.root_node)
+          return parser, node if node
         end
       end
     
@@ -30,6 +37,8 @@ module FeedMe
   end
   
   class AtomFeedParser < FeedParser
+    root_node "//feed[@xmlns='http://www.w3.org/2005/Atom']"
+    
     property :title
     property :feed_id, :id
     property :description, :subtitle
@@ -52,6 +61,8 @@ module FeedMe
   end
   
   class Rss2FeedParser < FeedParser
+    root_node "//rss[@version=2.0]/channel"
+    
     property :title
     property :updated_at, :lastBuildDate, :as => :time
     property :feed_id, :undefined
