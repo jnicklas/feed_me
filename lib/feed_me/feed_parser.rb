@@ -42,7 +42,7 @@ module FeedMe
     
     def entries
       xml.search('entry').map do |el|
-        ItemParser.build(el, self.format, self)
+        AtomItemParser.new(el, self.format, self)
       end
     end
     
@@ -64,7 +64,7 @@ module FeedMe
     
     def entries
       xml.search('item').map do |el|
-        ItemParser.build(el, self.format, self)
+        Rss2ItemParser.new(el, self.format, self)
       end
     end
     
