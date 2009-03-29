@@ -1,7 +1,7 @@
 module FeedMe
-  
+
   class FeedParser < AbstractParser
-  
+
     class << self
 
       def root_node(node=nil)
@@ -12,16 +12,16 @@ module FeedMe
       def parsers
         @parsers ||= []
       end
-    
+
       def inherited(subclass)
         super
         parsers << subclass
       end
-    
+
       def open(file)
         self.parse(Kernel.open(file).read)
       end
-    
+
       # parses the passed feed and identifeis what kind of feed it is
       # then returns a parser object
       def parse(feed)
@@ -31,14 +31,14 @@ module FeedMe
           return parser.new(node) if node
         end
       end
-    
+
     end
 
   end
-  
+
   class AtomFeedParser < FeedParser
     root_node "//feed[@xmlns='http://www.w3.org/2005/Atom']"
-    
+
     property :title
     property :feed_id, :id
     property :description, :subtitle
@@ -48,21 +48,21 @@ module FeedMe
     property :updated_at, :updated, :as => :time
     property :url, "link[@rel=alternate]", :from => :href
     property :href, "link[@rel=self]", :from => :href
-    
+
     def entries
       xml.search('entry').map do |el|
         AtomItemParser.new(el, self)
       end
     end
-    
+
     def author
       AtomPersonParser.new(xml)
     end
   end
-  
+
   class Rss2FeedParser < FeedParser
     root_node "//rss[@version=2.0]/channel"
-    
+
     property :title
     property :updated_at, :lastBuildDate, :as => :time
     property :feed_id, :undefined
@@ -72,13 +72,13 @@ module FeedMe
     property :generator
     property :author, :special
     property :entries, :special
-    
+
     def entries
       xml.search('item').map do |el|
         Rss2ItemParser.new(el, self)
       end
     end
-    
+
     def author
       Rss2PersonParser.new(xml, "managingEditor")
     end

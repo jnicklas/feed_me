@@ -1,16 +1,16 @@
 module FeedMe
-  
+
   class AtomPersonParser < AbstractParser
-  
+
     property :email, 'author/email'
     property :name, 'author/name'
     property :uri, 'author/uri'
-  
+
   end
-  
+
   class Rss2PersonParser
     attr_reader :name, :email, :uri
-  
+
     def initialize(xml, selector)
       item = xml.at("/#{selector}")
       if(item)
