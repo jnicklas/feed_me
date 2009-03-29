@@ -23,8 +23,13 @@ namespace :spec do
 
 end
 
+desc "Run all examples"
+Spec::Rake::SpecTask.new('spec') do |t|
+  t.spec_files = file_list
+end
+
 desc 'Default: run specs.'
-task :default => 'spec:rcov'
+task :default => 'spec'
 
 PLUGIN = "feed_me"
 NAME = "feed_me"
