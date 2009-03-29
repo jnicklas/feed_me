@@ -25,7 +25,6 @@ module FeedMe
   end
   
   class Rss2ItemParser < ItemParser
-    
     property :title
     property :updated_at, :undefined
     property :item_id, :guid
@@ -34,7 +33,7 @@ module FeedMe
     property :author, :special
     
     def author
-      fetch_rss_person("author")
+      Rss2AuthorParser.new(xml, "author")
     end
     
   end

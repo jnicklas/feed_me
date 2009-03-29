@@ -91,15 +91,4 @@ class FeedMe::AbstractParser
     end
   end
   
-  def fetch_rss_person(selector)
-    item = xml.at("/#{selector}")
-    if(item)
-      email, name = item.inner_html.split(/\s+/, 2)
-      name = name.match( /\((.*?)\)/ ).to_a[1] if name # strip parentheses
-    else
-      name, email = nil
-    end
-    Struct.new(:email, :name, :uri).new(email, name, nil)
-  end
-  
 end

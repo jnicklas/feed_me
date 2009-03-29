@@ -74,7 +74,7 @@ module FeedMe
     end
     
     def author
-      fetch_rss_person("managingEditor")
+      Rss2AuthorParser.new(xml, "managingEditor")
     end
   end
 end
