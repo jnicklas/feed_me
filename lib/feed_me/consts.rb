@@ -7,15 +7,9 @@ module FeedMe
 
   FEED_PROPERTIES = {
     :atom => {
-      :title => :title,
       :updated_at => [:updated, :time],
-      :feed_id => :id,
       :url => ["link[@rel=alternate]", :href],
-      :href => ["link[@rel=self]", :href],
-      :description => :subtitle,
-      :generator => :generator,
-      :author => :special,
-      :entries => :special
+      :href => ["link[@rel=self]", :href]
     },
     :rss2 => {
       :title => :title,

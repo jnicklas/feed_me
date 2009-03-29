@@ -32,7 +32,15 @@ module FeedMe
   end
   
   class AtomFeedParser < FeedParser
+    
     self.properties = FEED_PROPERTIES[:atom]
+
+    property :title
+    property :feed_id, :id
+    property :description, :subtitle
+    property :generator
+    property :author, :special
+    property :entries, :special
     
     def entries
       xml.search('entry').map do |el|

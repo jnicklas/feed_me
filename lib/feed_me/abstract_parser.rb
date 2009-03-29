@@ -48,6 +48,16 @@ class FeedMe::AbstractParser
     append_methods(@properties)
   end
   
+  def self.property(name, *args)
+    options = args.last.is_a?(Hash) ? args.pop : {}
+    
+    path = args.empty? ? name.to_s : args.first
+    
+    block = get_proc_for_property(name, path)
+    define_method name, &block
+    @properties[name] = path
+  end
+  
   protected
   
   def fetch_rss_person(selector)
