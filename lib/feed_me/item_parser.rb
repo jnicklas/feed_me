@@ -20,7 +20,7 @@ module FeedMe
     property :author, :special
     
     def author
-      AtomAuthorParser.new(xml, :atom)
+      AtomPersonParser.new(xml, :atom)
     end
   end
   
@@ -33,7 +33,7 @@ module FeedMe
     property :author, :special
     
     def author
-      Rss2AuthorParser.new(xml, "author")
+      Rss2PersonParser.new(xml, "author")
     end
     
   end

@@ -50,7 +50,7 @@ module FeedMe
     end
     
     def author
-      AtomAuthorParser.new(xml, :atom)
+      AtomPersonParser.new(xml, :atom)
     end
   end
   
@@ -74,7 +74,7 @@ module FeedMe
     end
     
     def author
-      Rss2AuthorParser.new(xml, "managingEditor")
+      Rss2PersonParser.new(xml, "managingEditor")
     end
   end
 end
