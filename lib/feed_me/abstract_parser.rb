@@ -53,8 +53,18 @@ class FeedMe::AbstractParser
     
     path = args.empty? ? name.to_s : args.first
     
-    block = get_proc_for_property(name, path)
+    if options[:as]
+      block = proc { fetch("/#{path}", root_node, options[:as]) }
+    elsif options[:from]
+      block = proc { fetch("/#{path}", root_node, options[:from]) }
+    elsif path != :undefined
+      block = proc { fetch("/#{path}", root_node) }
+    else
+      block = proc { nil }
+    end
+    
     define_method name, &block
+    @properties ||= {}
     @properties[name] = path
   end
   
