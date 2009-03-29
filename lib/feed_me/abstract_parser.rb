@@ -1,8 +1,10 @@
 class FeedMe::AbstractParser
   
   class << self
-    
-    attr_accessor :properties, :root_nodes
+
+    def properties
+      @properties ||= {}
+    end
 
     def root_node(node=nil)
       @root_node = node if node
@@ -13,8 +15,7 @@ class FeedMe::AbstractParser
       options = args.last.is_a?(Hash) ? args.pop : {}
       options[:path] ||= args.empty? ? name.to_s : args.first
 
-      @properties ||= {}
-      @properties[name.to_sym] = options
+      properties[name.to_sym] = options
 
       class_eval <<-RUBY
         def #{name}
@@ -27,18 +28,17 @@ class FeedMe::AbstractParser
 
   def initialize(xml)
     self.xml = xml
-    self.properties = self.class.properties
   end
   
   def to_hash
     hash = {}
-    self.properties.each do |method, p|
+    self.class.properties.each do |method, p|
       hash[method] = self.send(method)
     end
     return hash
   end
   
-  attr_accessor :xml, :properties
+  attr_accessor :xml
 
   alias_method :root_node, :xml
   
