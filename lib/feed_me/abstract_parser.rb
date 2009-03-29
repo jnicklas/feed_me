@@ -43,29 +43,24 @@ class FeedMe::AbstractParser
 
   alias_method :root_node, :xml
   
-  def self.properties=(new_properties)
-    @properties = new_properties
-    append_methods(@properties)
-  end
-  
   def self.property(name, *args)
     options = args.last.is_a?(Hash) ? args.pop : {}
     
-    path = args.empty? ? name.to_s : args.first
+    options[:path] ||= args.empty? ? name.to_s : args.first
     
     if options[:as]
-      block = proc { fetch("/#{path}", root_node, options[:as]) }
+      block = proc { fetch("/#{options[:path]}", root_node, options[:as]) }
     elsif options[:from]
-      block = proc { fetch("/#{path}", root_node, options[:from]) }
-    elsif path != :undefined
-      block = proc { fetch("/#{path}", root_node) }
+      block = proc { fetch("/#{options[:path]}", root_node, options[:from]) }
+    elsif options[:path] != :undefined
+      block = proc { fetch("/#{options[:path]}", root_node) }
     else
       block = proc { nil }
     end
     
     define_method name, &block
     @properties ||= {}
-    @properties[name] = path
+    @properties[name] = options
   end
   
   protected
@@ -79,25 +74,6 @@ class FeedMe::AbstractParser
       name, email = nil
     end
     FeedMe::SimpleStruct.new(:email => email, :name => name, :uri => nil)
-  end
-  
-  def self.append_methods(properties)
-    properties.each do |method, p|
-      block = get_proc_for_property(method, p)
-      define_method method, &block
-    end
-  end
-  
-  def self.get_proc_for_property(method, p)
-    if p.class == Array
-      return proc { fetch("/#{p[0]}", root_node, p[1].to_sym) }
-    elsif p.class == Hash
-      return proc { FeedMe::FeedStruct.new(root_node, p) }
-    elsif p != :undefined
-      return proc { fetch("/#{p}", root_node) }
-    else
-      return proc { nil }
-    end
   end
 
   def fetch(selector, search_in = xml, method = :inner_html)
