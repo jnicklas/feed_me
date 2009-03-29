@@ -4,25 +4,6 @@ class FeedMe::AbstractParser
     
     attr_accessor :properties, :root_nodes
     
-    def build(xml, format, *args)
-      # in a world with activesupport this would have been written as
-      #   format_parser = (format.to_s.camelize + self.to_s).constantize
-      camelized_format = format.to_s.split('_').map{ |w| w.capitalize }.join('')
-      bare_class = self.to_s.split('::').last
-            
-      begin
-        format_parser = FeedMe.const_get(camelized_format + bare_class)
-      rescue NameError
-      end
-
-      if format_parser.is_a?(Class) and format_parser.ancestors.include?(self)
-        return format_parser.new(xml, format, *args)
-      else
-        return self.new(xml, format, *args)
-      end
-
-    end
-    
   end
 
   def initialize(xml, format)
