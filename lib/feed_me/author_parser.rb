@@ -2,7 +2,9 @@ module FeedMe
   
   class AtomAuthorParser < AbstractParser
   
-    self.properties = AUTHOR_PROPERTIES[:atom]
+    property :email, 'author/email'
+    property :name, 'author/name'
+    property :uri, 'author/uri'
   
   end
 

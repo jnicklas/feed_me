@@ -2,8 +2,6 @@ module FeedMe
   
   class ItemParser < AbstractParser
   
-    self.properties = ITEM_PROPERTIES
-    
     attr_accessor :feed
     
     def initialize(xml, format, feed)
@@ -14,8 +12,12 @@ module FeedMe
   end
 
   class AtomItemParser < ItemParser
-    
-    self.properties = ITEM_PROPERTIES[:atom]
+    property :title
+    property :updated_at, :updated, :as => :time
+    property :item_id, :id
+    property :url, "link[@rel=alternate]", :from => :href
+    property :content
+    property :author, :special
     
     def author
       AtomAuthorParser.new(xml, :atom)
@@ -24,7 +26,12 @@ module FeedMe
   
   class Rss2ItemParser < ItemParser
     
-    self.properties = ITEM_PROPERTIES[:rss2]
+    property :title
+    property :updated_at, :undefined
+    property :item_id, :guid
+    property :url, :link
+    property :content, :description
+    property :author, :special
     
     def author
       fetch_rss_person("author")
