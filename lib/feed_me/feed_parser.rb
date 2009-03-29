@@ -9,6 +9,7 @@ module FeedMe
       end
     
       def inherited(subclass)
+        super
         parsers << subclass
       end
     
@@ -20,16 +21,9 @@ module FeedMe
       # then returns a parser object
       def parse(feed)
         xml = Hpricot.XML(feed)
-        parser, node = self.identify(xml)
-        parser.new(node, :blah)
-      end
-      
-      protected
-  
-      def identify(xml)
         parsers.each do |parser|
           node = xml.at(parser.root_node)
-          return parser, node if node
+          return parser.new(node, :blah) if node
         end
       end
     
