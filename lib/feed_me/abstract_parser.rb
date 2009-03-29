@@ -99,7 +99,7 @@ class FeedMe::AbstractParser
     else
       name, email = nil
     end
-    FeedMe::SimpleStruct.new(:email => email, :name => name, :uri => nil)
+    Struct.new(:email, :name, :uri).new(email, name, nil)
   end
   
 end
