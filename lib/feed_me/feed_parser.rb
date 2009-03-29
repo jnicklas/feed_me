@@ -2,8 +2,6 @@ module FeedMe
   
   class FeedParser < AbstractParser
   
-    self.properties = FEED_PROPERTIES
-  
     class << self
     
       def open(file)
@@ -54,7 +52,15 @@ module FeedMe
   end
   
   class Rss2FeedParser < FeedParser
-    self.properties = FEED_PROPERTIES[:rss2]
+    property :title
+    property :updated_at, :lastBuildDate, :as => :time
+    property :feed_id, :undefined
+    property :url, :link
+    property :href, :undefined
+    property :description
+    property :generator
+    property :author, :special
+    property :entries, :special
     
     def entries
       xml.search('item').map do |el|
