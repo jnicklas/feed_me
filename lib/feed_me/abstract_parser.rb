@@ -45,25 +45,31 @@ class FeedMe::AbstractParser
   
   def self.property(name, *args)
     options = args.last.is_a?(Hash) ? args.pop : {}
-    
     options[:path] ||= args.empty? ? name.to_s : args.first
     
-    if options[:as]
-      block = proc { fetch("/#{options[:path]}", root_node, options[:as]) }
-    elsif options[:from]
-      block = proc { fetch("/#{options[:path]}", root_node, options[:from]) }
-    elsif options[:path] != :undefined
-      block = proc { fetch("/#{options[:path]}", root_node) }
-    else
-      block = proc { nil }
-    end
-    
-    define_method name, &block
     @properties ||= {}
-    @properties[name] = options
+    @properties[name.to_sym] = options
+    
+    class_eval <<-RUBY
+      def #{name}
+        get_property(:#{name})
+      end
+    RUBY
   end
   
   protected
+  
+  def get_property(name)
+    property = self.class.properties[name]
+    
+    if property[:as]
+      fetch("/#{property[:path]}", root_node, property[:as])
+    elsif property[:from]
+      fetch("/#{property[:path]}", root_node, property[:from])
+    elsif property[:path] != :undefined
+      fetch("/#{property[:path]}", root_node)
+    end
+  end
   
   def fetch_rss_person(selector)
     item = fetch(selector)
