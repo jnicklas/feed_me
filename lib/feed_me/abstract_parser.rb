@@ -6,11 +6,6 @@ class FeedMe::AbstractParser
       @properties ||= {}
     end
 
-    def root_node(node=nil)
-      @root_node = node if node
-      @root_node
-    end
-
     def property(name, *args)
       options = args.last.is_a?(Hash) ? args.pop : {}
       options[:path] ||= args.empty? ? name.to_s : args.first

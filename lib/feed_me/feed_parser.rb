@@ -3,7 +3,12 @@ module FeedMe
   class FeedParser < AbstractParser
   
     class << self
-    
+
+      def root_node(node=nil)
+        @root_node = node if node
+        @root_node
+      end
+
       def parsers
         @parsers ||= []
       end
@@ -28,6 +33,7 @@ module FeedMe
       end
     
     end
+
   end
   
   class AtomFeedParser < FeedParser
