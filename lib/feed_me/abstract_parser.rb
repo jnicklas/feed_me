@@ -6,10 +6,8 @@ class FeedMe::AbstractParser
       @properties ||= {}
     end
 
-    def property(name, *args)
-      options = args.last.is_a?(Hash) ? args.pop : {}
-      options[:path] ||= args.empty? ? name.to_s : args.first
-
+    def property(name, options={})
+      options[:path] ||= name
       properties[name.to_sym] = options
 
       class_eval <<-RUBY

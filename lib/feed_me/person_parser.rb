@@ -2,9 +2,9 @@ module FeedMe
 
   class AtomPersonParser < AbstractParser
 
-    property :email, 'author/email'
-    property :name, 'author/name'
-    property :uri, 'author/uri'
+    property :email, :path => 'author/email'
+    property :name, :path => 'author/name'
+    property :uri, :path => 'author/uri'
 
   end
 
