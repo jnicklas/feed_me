@@ -69,8 +69,6 @@ module FeedMe
 
     has_many :entries, :path => 'item', :use => :Rss2ItemParser
 
-    def author
-      Rss2PersonParser.new(xml, "managingEditor")
-    end
+    has_one :author, :path => 'managingEditor', :use => :Rss2PersonParser
   end
 end

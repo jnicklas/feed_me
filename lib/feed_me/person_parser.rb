@@ -21,10 +21,10 @@ module FeedMe
   class Rss2PersonParser
     attr_reader :name, :email, :uri
 
-    def initialize(xml, selector)
-      item = xml.at("/#{selector}")
-      if(item)
-        @email, @name = item.inner_html.split(/\s+/, 2)
+    def initialize(xml, feed)
+      @feed = feed
+      if(xml)
+        @email, @name = xml.inner_html.split(/\s+/, 2)
         @name = name.match( /\((.*?)\)/ ).to_a[1] if @name # strip parentheses
       end
     end

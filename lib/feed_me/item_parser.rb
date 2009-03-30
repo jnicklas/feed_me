@@ -30,8 +30,6 @@ module FeedMe
     property :content, :path => :description
     property :author, :path => :special
 
-    def author
-      Rss2PersonParser.new(xml, "author")
-    end
+    has_one :author, :use => :Rss2PersonParser
   end
 end
