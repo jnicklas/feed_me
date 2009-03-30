@@ -19,9 +19,7 @@ module FeedMe
     property :content
     property :author, :path => :undefined
 
-    def author
-      AtomPersonParser.new(xml)
-    end
+    has_one :author, :use => :AtomPersonParser
   end
 
   class Rss2ItemParser < ItemParser

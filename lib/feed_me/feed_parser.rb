@@ -51,9 +51,7 @@ module FeedMe
 
     has_many :entries, :path => 'entry', :use => :AtomItemParser
 
-    def author
-      AtomPersonParser.new(xml)
-    end
+    has_one :author, :use => :AtomPersonParser
   end
 
   class Rss2FeedParser < FeedParser

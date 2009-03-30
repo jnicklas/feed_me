@@ -1,10 +1,20 @@
 module FeedMe
 
-  class AtomPersonParser < AbstractParser
+  class PersonParser < AbstractParser
+    attr_accessor :feed
 
-    property :email, :path => 'author/email'
-    property :name, :path => 'author/name'
-    property :uri, :path => 'author/uri'
+    def initialize(xml, feed)
+      super(xml)
+      self.feed = feed
+    end
+
+  end
+
+  class AtomPersonParser < PersonParser
+
+    property :email
+    property :name
+    property :uri
 
   end
 
