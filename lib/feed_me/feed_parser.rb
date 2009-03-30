@@ -43,8 +43,6 @@ module FeedMe
     property :feed_id, :path => :id
     property :description, :path => :subtitle
     property :generator
-    property :author, :path => :undefined
-    property :entries, :path => :undefined
     property :updated_at, :path => :updated, :as => :time
     property :url, :path => "link[@rel=alternate]", :from => :href
     property :href, :path => "link[@rel=self]", :from => :href
@@ -64,8 +62,6 @@ module FeedMe
     property :href, :path => :undefined
     property :description
     property :generator
-    property :author, :path => :undefined
-    property :entries, :path => :undefined
 
     has_many :entries, :path => 'item', :use => :Rss2ItemParser
 

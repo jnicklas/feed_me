@@ -6,14 +6,6 @@ class FeedMe::AbstractParser
       @properties ||= {}
     end
 
-    def has_many_associations
-      @has_many_associations ||= {}
-    end
-
-    def has_one_associations
-      @has_one_associations ||= {}
-    end
-
     def property(name, options={})
       options[:path] ||= name
       properties[name.to_sym] = options
@@ -28,7 +20,8 @@ class FeedMe::AbstractParser
     def has_many(name, options={})
       raise ArgumentError, "must specify :use option" unless options[:use]
       options[:path] ||= name
-      has_many_associations[name.to_sym] = options
+      options[:association] = :has_many
+      properties[name.to_sym] = options
 
       class_eval <<-RUBY, __FILE__, __LINE__+1
         def #{name}
@@ -40,7 +33,8 @@ class FeedMe::AbstractParser
     def has_one(name, options={})
       raise ArgumentError, "must specify :use option" unless options[:use]
       options[:path] ||= name
-      has_one_associations[name.to_sym] = options
+      options[:association] = :has_one
+      properties[name.to_sym] = options
 
       class_eval <<-RUBY, __FILE__, __LINE__+1
         def #{name}
@@ -71,7 +65,7 @@ private
 
   def get_has_many_association(name)
     return nil unless xml
-    association = self.class.has_many_associations[name]
+    association = self.class.properties[name]
     
     nodes = xml.search(association[:path])
     parser = FeedMe.const_get(association[:use].to_s)
@@ -83,7 +77,7 @@ private
 
   def get_has_one_association(name)
     return nil unless xml
-    association = self.class.has_one_associations[name]
+    association = self.class.properties[name]
     
     node = xml.at("/#{association[:path]}")
     parser = FeedMe.const_get(association[:use].to_s)

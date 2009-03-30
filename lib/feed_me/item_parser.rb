@@ -17,7 +17,6 @@ module FeedMe
     property :item_id, :path => :id
     property :url, :path => "link[@rel=alternate]", :from => :href
     property :content
-    property :author, :path => :undefined
 
     has_one :author, :use => :AtomPersonParser
   end
@@ -28,7 +27,6 @@ module FeedMe
     property :item_id, :path => :guid
     property :url, :path => :link
     property :content, :path => :description
-    property :author, :path => :special
 
     has_one :author, :use => :Rss2PersonParser
   end
