@@ -113,7 +113,7 @@ private
 
   def cast_result(result, as)
     if as == :time
-      DateTime.parse(result)
+      Time.parse(result)
     else
       result
     end
