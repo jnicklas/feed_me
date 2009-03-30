@@ -49,11 +49,7 @@ module FeedMe
     property :url, :path => "link[@rel=alternate]", :from => :href
     property :href, :path => "link[@rel=self]", :from => :href
 
-    def entries
-      xml.search('entry').map do |el|
-        AtomItemParser.new(el, self)
-      end
-    end
+    has_many :entries, :path => 'entry', :use => :AtomItemParser
 
     def author
       AtomPersonParser.new(xml)
@@ -73,11 +69,7 @@ module FeedMe
     property :author, :path => :undefined
     property :entries, :path => :undefined
 
-    def entries
-      xml.search('item').map do |el|
-        Rss2ItemParser.new(el, self)
-      end
-    end
+    has_many :entries, :path => 'item', :use => :Rss2ItemParser
 
     def author
       Rss2PersonParser.new(xml, "managingEditor")

@@ -6,6 +6,10 @@ class FeedMe::AbstractParser
       @properties ||= {}
     end
 
+    def has_many_associations
+      @has_many_associations ||= {}
+    end
+
     def property(name, options={})
       options[:path] ||= name
       properties[name.to_sym] = options
@@ -13,6 +17,18 @@ class FeedMe::AbstractParser
       class_eval <<-RUBY
         def #{name}
           get_property(:#{name})
+        end
+      RUBY
+    end
+
+    def has_many(name, options={})
+      raise ArgumentError, "must specify :use option" unless options[:use]
+      options[:path] ||= name
+      has_many_associations[name.to_sym] = options
+
+      class_eval <<-RUBY
+        def #{name}
+          get_has_many_association(:#{name})
         end
       RUBY
     end
@@ -36,6 +52,17 @@ class FeedMe::AbstractParser
   alias_method :root_node, :xml
 
 private
+
+  def get_has_many_association(name)
+    association = self.class.has_many_associations[name]
+    
+    nodes = xml.search(association[:path])
+    parser = FeedMe.const_get(association[:use].to_s)
+    
+    nodes.map do |node|
+      parser.new(node, self)
+    end
+  end
 
   def get_property(name)
     property = self.class.properties[name]
