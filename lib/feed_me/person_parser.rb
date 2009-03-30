@@ -19,9 +19,10 @@ module FeedMe
   end
 
   class Rss2PersonParser
-    attr_reader :name, :email, :uri
+    attr_reader :name, :email, :uri, :xml
 
     def initialize(xml, feed)
+      @xml = xml
       @feed = feed
       if(xml)
         @email, @name = xml.inner_html.split(/\s+/, 2)
