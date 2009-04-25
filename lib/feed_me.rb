@@ -23,6 +23,7 @@ module FeedMe
   end
 end
 
-['abstract_parser', 'feed_parser', 'item_parser', 'person_parser'].each do |f|
-  require File.join(File.dirname(__FILE__), 'feed_me', f)
-end
+require 'feed_me/abstract_parser'
+require 'feed_me/feed_parser'
+require 'feed_me/item_parser'
+require 'feed_me/person_parser'
