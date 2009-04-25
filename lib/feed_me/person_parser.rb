@@ -3,23 +3,20 @@ module FeedMe
   class PersonParser < AbstractParser; end
 
   class AtomPersonParser < PersonParser
-
     property :email
     property :name
     property :uri
-
   end
 
-  class Rss2PersonParser
-    attr_reader :name, :email, :uri, :xml
+  class Rss2PersonParser < PersonParser
+    attr_reader :uri
 
-    def initialize(feed, xml)
-      @feed = feed
-      @xml = xml
-      if(xml)
-        @email, @name = xml.inner_html.split(/\s+/, 2)
-        @name = name.match( /\((.*?)\)/ ).to_a[1] if @name # strip parentheses
-      end
+    def email
+      xml.inner_html.split(/\s+/, 2)[0] if xml
+    end
+
+    def name
+      xml.inner_html.split(/\s+/, 2)[1].to_s[/\((.*?)\)/, 1] if xml
     end
   end
 
