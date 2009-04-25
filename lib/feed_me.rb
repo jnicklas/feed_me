@@ -11,17 +11,6 @@ require 'hpricot'
 >>>>>>> No longer failing Time parsing specs:lib/feed_me.rb
 require 'time'
 
-unless nil.respond_to? :try
-  # the ultimate duck
-  class Object
-    def try(method, *args)
-      self.send(method, *args)
-    rescue NoMethodError
-      nil
-    end
-  end
-end
-
 module FeedMe
   class InvalidFeedFormat < StandardError ; end
 
