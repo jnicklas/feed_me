@@ -45,8 +45,9 @@ class FeedMe::AbstractParser
 
   end
 
-  def initialize(xml)
-    self.xml = xml
+  def initialize(feed, xml)
+    @xml = xml
+    @feed = feed
   end
 
   def to_hash
@@ -57,7 +58,7 @@ class FeedMe::AbstractParser
     return hash
   end
 
-  attr_accessor :xml
+  attr_reader :xml, :feed
 
   alias_method :root_node, :xml
 
@@ -71,7 +72,7 @@ private
     parser = FeedMe.const_get(association[:use].to_s)
     
     nodes.map do |node|
-      parser.new(node, self)
+      parser.new(self, node)
     end
   end
 
@@ -82,7 +83,7 @@ private
     node = xml.at("/#{association[:path]}")
     parser = FeedMe.const_get(association[:use].to_s)
     
-    parser.new(node, self)
+    parser.new(self, node)
   end
 
   def get_property(name)

@@ -1,15 +1,6 @@
 module FeedMe
 
-  class ItemParser < AbstractParser
-
-    attr_accessor :feed
-
-    def initialize(xml, feed)
-      super(xml)
-      self.feed = feed
-    end
-
-  end
+  class ItemParser < AbstractParser; end
 
   class AtomItemParser < ItemParser
     property :title

@@ -32,6 +32,10 @@ module FeedMe
         end
       end
 
+    end # class << self
+
+    def initialize(xml)
+      @xml = xml
     end
 
   end
