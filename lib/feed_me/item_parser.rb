@@ -18,6 +18,7 @@ module FeedMe
     property :item_id, :path => :guid
     property :url, :path => :link
     property :content, :path => :description
+    property :categories, :path => :category, :cardinality => :many
 
     has_one :author, :use => :Rss2PersonParser
   end

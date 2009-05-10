@@ -67,6 +67,12 @@ describe FeedMe::ItemParser do
     end
   end
 
+  describe '#categories' do
+    it "should be correct for an rss2 feed" do
+      @rss2.categories.should == ['news', 'chuck']
+    end
+  end
+
   describe '#author.name' do
     it "should be valid for an atom feed" do
       @atom.author.name.should == "Jonas Nicklas"

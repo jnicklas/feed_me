@@ -90,11 +90,16 @@ private
     return nil unless xml
     property = self.class.properties[name]
 
-    node = xml.at("/#{property[:path]}")
-
-    if node
+    values = xml.search("/#{property[:path]}").map do |node|
       result = extract_result(node, property[:from])
-      result = cast_result(result, property[:as])
+      cast_result(result, property[:as])
+    end
+    
+    case property[:cardinality]
+    when :many
+      return values
+    else
+      return values.first
     end
   end
 
