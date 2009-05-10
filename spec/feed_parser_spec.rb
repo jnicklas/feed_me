@@ -12,6 +12,18 @@ describe "all parsing methods", :shared => true do
     @rss2.should be_an_instance_of(FeedMe::Rss2FeedParser)
     @rss2.root_node.xpath == "//rss[@version=2.0]/channel"
   end
+
+  describe "with bad input" do
+    it "should raise on an empty body" do
+      lambda { FeedMe::FeedParser.parse("") }.should raise_error(FeedMe::InvalidFeedFormat)
+    end
+
+    it "should raise on a body with non-recognised xml" do
+      lambda {
+        FeedMe::FeedParser.parse(%Q|<?xml version="1.0" encoding="UTF-8"?>"<foo>bar</foo>|)
+      }.should raise_error(FeedMe::InvalidFeedFormat)
+    end
+  end
 end
 
 describe FeedMe::FeedParser do

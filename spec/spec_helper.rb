@@ -3,6 +3,8 @@ $:.push File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'rubygems'
 require 'ruby-debug'
+require 'spec'
+require 'spec/autorun'
 
 module Fixtures
 

@@ -30,6 +30,8 @@ module FeedMe
           node = xml.at(parser.root_node)
           return parser.new(node) if node
         end
+        # if we cannot find a parser, raise an error.
+        raise InvalidFeedFormat
       end
 
     end # class << self
