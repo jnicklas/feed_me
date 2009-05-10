@@ -14,7 +14,7 @@ module FeedMe
 
   class Rss2ItemParser < ItemParser
     property :title
-    property :updated_at, :path => :undefined
+    property :updated_at, :path => :pubDate, :as => :time
     property :item_id, :path => :guid
     property :url, :path => :link
     property :content, :path => :description

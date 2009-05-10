@@ -52,8 +52,8 @@ describe FeedMe::ItemParser do
       @atom.updated_at.should == Time.utc( 2008, 3, 7, 20, 41, 10 )
     end
 
-    it "should be nil for an rss2 feed" do
-      @rss2.updated_at.should be_nil
+    it "should be valid for an rss2 feed" do
+      @rss2.updated_at.should == Time.utc(2003, 6, 3, 9, 39, 21)
     end
   end
 
@@ -132,7 +132,7 @@ describe FeedMe::ItemParser do
     end
 
     it "should serialize updated_at for an rss2 feed" do
-      @rss2.to_hash[:updated_at].should be_nil
+      @rss2.to_hash[:updated_at].should == Time.utc(2003, 6, 3, 9, 39, 21)
     end
 
     it "should serialize the url for an rss2 feed" do
