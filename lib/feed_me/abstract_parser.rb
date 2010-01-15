@@ -107,7 +107,7 @@ private
     if from
       node[from]
     else
-      node.inner_html
+      node.inner_text
     end
   end
 
