@@ -25,12 +25,13 @@ module FeedMe
       # parses the passed feed and identifeis what kind of feed it is
       # then returns a parser object
       def parse(feed)
-        if root = Nokogiri::XML(feed).root
+        document = Nokogiri::XML(feed)
+        if root = document.root 
           root.add_namespace_definition('atom', 'http://www.w3.org/2005/Atom')
           parsers.each do |parser|
             node = root.xpath(parser.root_node).first
             if node
-              return parser.new(node)
+              return parser.new(node, document.encoding)
             end
           end
         end
@@ -40,9 +41,12 @@ module FeedMe
 
     end # class << self
 
-    def initialize(xml)
+    def initialize(xml, encoding)
       @xml = xml
+      @encoding = encoding
     end
+
+    attr_reader :encoding
 
   end
 

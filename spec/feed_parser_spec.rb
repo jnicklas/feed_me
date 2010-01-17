@@ -55,6 +55,16 @@ describe FeedMe::FeedParser do
     it_should_behave_like "all parsing methods"
   end
 
+  describe '#encoding' do
+    it "should return the encoding for an atom feed" do
+      @atom.encoding.should == 'UTF-8'
+    end
+
+    it "should return the encoding for an atom feed" do
+      @rss2.encoding.should == 'iso-8859-1'
+    end
+  end
+
   describe '#title' do
     it "should be valid for an atom feed" do
       @atom.title.should == "Test feed"
