@@ -6,9 +6,9 @@ describe FeedMe::ItemParser do
 
   before :each do
     @atom_feed = FeedMe::FeedParser.open(fixture('welformed.atom'))
-    @atom = FeedMe::AtomItemParser.new(@atom_feed, @atom_feed.root_node.search('/entry').first)
+    @atom = @atom_feed.entries.first
     @rss2_feed = FeedMe::FeedParser.open(fixture('welformed.rss2'))
-    @rss2 = FeedMe::Rss2ItemParser.new(@rss2_feed, @rss2_feed.root_node.search('/item').first)
+    @rss2 = @rss2_feed.entries.first
   end
 
   describe '#to_hash' do
@@ -160,9 +160,9 @@ describe "Without an author", FeedMe::ItemParser do
 
   before :each do
     @atom_feed = FeedMe::FeedParser.open(fixture('welformed.atom'))
-    @atom = FeedMe::AtomItemParser.new(@atom_feed, @atom_feed.root_node.search('/entry')[1])
+    @atom = @atom_feed.entries[1]
     @rss2_feed = FeedMe::FeedParser.open(fixture('welformed.rss2'))
-    @rss2 = FeedMe::Rss2ItemParser.new(@rss2_feed, @rss2_feed.root_node.search('/item')[1])
+    @rss2 = @rss2_feed.entries[1]
   end
 
   describe '#author.name' do

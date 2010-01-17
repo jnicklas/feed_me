@@ -68,7 +68,7 @@ private
     return nil unless xml
     association = self.class.properties[name]
     
-    nodes = xml.search(association[:path])
+    nodes = xml.xpath("./#{association[:path]}")
     parser = FeedMe.const_get(association[:use].to_s)
     
     nodes.map do |node|
@@ -80,7 +80,7 @@ private
     return nil unless xml
     association = self.class.properties[name]
     
-    node = xml.at("/#{association[:path]}")
+    node = xml.xpath("./#{association[:path]}").first
     parser = FeedMe.const_get(association[:use].to_s)
     
     parser.new(self, node)
@@ -90,7 +90,7 @@ private
     return nil unless xml
     property = self.class.properties[name]
 
-    values = xml.search("/#{property[:path]}").map do |node|
+    values = xml.xpath("./#{property[:path]}").map do |node|
       result = extract_result(node, property[:from])
       cast_result(result, property[:as])
     end

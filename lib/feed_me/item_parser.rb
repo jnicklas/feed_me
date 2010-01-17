@@ -3,13 +3,13 @@ module FeedMe
   class ItemParser < AbstractParser; end
 
   class AtomItemParser < ItemParser
-    property :title
-    property :updated_at, :path => :updated, :as => :time
-    property :item_id, :path => :id
-    property :url, :path => "link[@rel=alternate]", :from => :href
-    property :content
+    property :title, :path => 'atom:title'
+    property :updated_at, :path => "atom:updated", :as => :time
+    property :item_id, :path => "atom:id"
+    property :url, :path => "atom:link[@rel='alternate']", :from => :href
+    property :content, :path => 'atom:content'
 
-    has_one :author, :use => :AtomPersonParser
+    has_one :author, :path => 'atom:author', :use => :AtomPersonParser
   end
 
   class Rss2ItemParser < ItemParser

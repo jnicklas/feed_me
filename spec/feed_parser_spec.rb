@@ -29,10 +29,8 @@ end
 describe FeedMe::FeedParser do
 
   before :each do
-    @atom_feed = hpricot_fixture('welformed.atom') / "//feed[@xmlns='http://www.w3.org/2005/Atom']"
-    @atom = FeedMe::AtomFeedParser.new(@atom_feed)
-    @rss2_feed = hpricot_fixture('welformed.rss2') / "//rss[@version=2.0]/channel"
-    @rss2 = FeedMe::Rss2FeedParser.new(@rss2_feed)
+    @atom = FeedMe::FeedParser.parse(open(fixture('welformed.atom')).read)
+    @rss2 = FeedMe::FeedParser.parse(open(fixture('welformed.rss2')).read)
   end
 
   it "should be an atom parser for an atom feed" do

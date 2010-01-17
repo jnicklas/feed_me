@@ -3,9 +3,9 @@ module FeedMe
   class PersonParser < AbstractParser; end
 
   class AtomPersonParser < PersonParser
-    property :email
-    property :name
-    property :uri
+    property :email, :path => 'atom:email'
+    property :name, :path => 'atom:name'
+    property :uri, :path => 'atom:uri'
   end
 
   class Rss2PersonParser < PersonParser

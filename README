@@ -3,7 +3,7 @@ Feed Me
 
 Feed Me is a simple parser for RSS2 and Atom feed, adding other feed formats should be trivial. Feed Me is pretty minimal and basically only does translation/cleanup from different feed formats to a consistent API. It is designed to be minimal.
 
-Feed Me is built on the excellent Hpricot parser written by _why the lucky stiff.
+Feed Me is built on the excellent Nokogiri parser.
 
 Use it like this:
 

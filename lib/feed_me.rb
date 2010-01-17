@@ -1,4 +1,4 @@
-require 'hpricot'
+require 'nokogiri'
 require 'time'
 
 module FeedMe
