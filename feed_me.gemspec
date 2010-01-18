@@ -10,7 +10,11 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jonas Nicklas", "Jonathan Stott"]
   s.autorequire = %q{feed_me}
+<<<<<<< HEAD
   s.date = %q{2010-01-18}
+=======
+  s.date = %q{2010-01-15}
+>>>>>>> 287138326c011e58d8ca1549037ac7f6f4f73aee
   s.description = %q{Nice and simple RSS and atom feed parsing built on hpricot}
   s.email = %q{jonas.nicklas@gmail.com}
   s.extra_rdoc_files = [
