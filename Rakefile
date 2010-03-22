@@ -55,7 +55,7 @@ begin
     s.homepage = HOMEPAGE
     s.require_path = 'lib'
     s.autorequire = PLUGIN
-    s.add_dependency('hpricot')
+    s.add_dependency('nokogiri')
     s.files = %w(LICENSE README Rakefile TODO) + Dir.glob("{lib,specs}/**/*")
   end
 rescue
