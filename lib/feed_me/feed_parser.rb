@@ -94,5 +94,6 @@ module FeedMe
     property :url, :path => 'rss1:channel/rss1:link'
     property :href, :path => 'rss1:channel/@rdf:about'
     property :generator, :path => :undefined
+    has_one :author, :path => '.', :use => :Rss1PersonParser
   end
 end

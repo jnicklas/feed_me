@@ -172,6 +172,10 @@ describe FeedMe::FeedParser do
     it "should be valid for an rss2 feed" do
       @rss2.author.name.should == "Mary Jo"
     end
+
+    it "should be nil for an rss1 feed" do
+      @rss1.author.name.should be_nil
+    end
   end
 
   describe '#author.email' do
@@ -182,6 +186,10 @@ describe FeedMe::FeedParser do
     it "should be valid for an rss2 feed" do
       @rss2.author.email.should == "editor@example.com"
     end
+
+    it "should be nil for an rss1 feed" do
+      @rss1.author.email.should be_nil
+    end
   end
 
   describe '#author.uri' do
@@ -191,6 +199,10 @@ describe FeedMe::FeedParser do
 
     it "should be nil for an rss2 feed" do
       @rss2.author.uri.should be_nil
+    end
+
+    it "should be nil for an rss1 feed" do
+      @rss1.author.uri.should be_nil
     end
   end
 
