@@ -7,10 +7,7 @@
 	<channel rdf:about="http://www.xml.com/xml/news.rss">
 		<title>XML.com</title>
 		<link>http://xml.com/pub</link>
-		<description>
-			XML.com features a rich mix of information and services 
-			for the XML community.
-		</description>
+		<description>XML.com features a rich mix of information and services</description>
 		<image rdf:resource="http://xml.com/universal/images/xml_tiny.gif" />
 		<items>
 			<rdf:Seq>

@@ -26,8 +26,10 @@ module FeedMe
       # then returns a parser object
       def parse(feed)
         document = Nokogiri::XML(feed)
-        if root = document.root 
+        if root = document.root
           root.add_namespace_definition('atom', 'http://www.w3.org/2005/Atom')
+          root.add_namespace_definition('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
+          root.add_namespace_definition('rss1', 'http://purl.org/rss/1.0/')
           parsers.each do |parser|
             node = root.xpath(parser.root_node).first
             if node
@@ -80,5 +82,17 @@ module FeedMe
     has_many :entries, :path => 'item', :use => :Rss2ItemParser
 
     has_one :author, :path => 'managingEditor', :use => :Rss2PersonParser
+  end
+
+  class Rss1FeedParser < FeedParser
+    root_node "//rdf:RDF"
+
+    property :title, :path => 'rss1:channel/rss1:title'
+    property :description, :path => 'rss1:channel/rss1:description'
+    property :feed_id, :path => :undefined
+    property :updated_at, :path => :undefined
+    property :url, :path => 'rss1:channel/rss1:link'
+    property :href, :path => 'rss1:channel/@rdf:about'
+    property :generator, :path => :undefined
   end
 end

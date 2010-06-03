@@ -31,6 +31,7 @@ describe FeedMe::FeedParser do
   before :each do
     @atom = FeedMe::FeedParser.parse(open(fixture('welformed.atom')).read)
     @rss2 = FeedMe::FeedParser.parse(open(fixture('welformed.rss2')).read)
+    @rss1 = FeedMe::FeedParser.parse(open(fixture('welformed.rss1')).read)
   end
 
   it "should be an atom parser for an atom feed" do
@@ -73,6 +74,10 @@ describe FeedMe::FeedParser do
     it "should be valid for an rss2 feed" do
       @rss2.title.should == "Lift Off News"
     end
+
+    it "should be valid for an rss1 feed" do
+      @rss1.title.should == "XML.com"
+    end
   end
 
   describe '#description' do
@@ -82,6 +87,10 @@ describe FeedMe::FeedParser do
 
     it "should be valid for an rss2 feed" do
       @rss2.description.should == "Liftoff to Space Exploration."
+    end
+
+    it "should be valid for an rss1 feed" do
+      @rss1.description.should == "XML.com features a rich mix of information and services"
     end
   end
 
@@ -93,6 +102,10 @@ describe FeedMe::FeedParser do
     it "should be nil for an rss2 feed" do
       @rss2.feed_id.should be_nil
     end
+
+    it "should be nil for an rss1 feed" do
+      @rss1.feed_id.should be_nil
+    end
   end
 
   describe '#updated_at' do
@@ -103,6 +116,10 @@ describe FeedMe::FeedParser do
     it "should be valid for an rss2 feed" do
       @rss2.updated_at.should == Time.utc(2003, 6, 10, 9, 41, 1)
     end
+
+    it "should be nil for an rss1 feed" do
+      @rss1.updated_at.should be_nil
+    end
   end
 
   describe '#href' do
@@ -110,8 +127,12 @@ describe FeedMe::FeedParser do
       @atom.href.should == "http://imaginary.host/posts.atom"
     end
 
-    it "should be nil for an atom feed" do
+    it "should be nil for an rss2 feed" do
       @rss2.href.should be_nil
+    end
+
+    it "should be valid for an rss1 feed" do
+      @rss1.href.should == "http://www.xml.com/xml/news.rss"
     end
   end
 
@@ -123,6 +144,10 @@ describe FeedMe::FeedParser do
     it "should be valid for an rss2 feed" do
       @rss2.url.should == "http://liftoff.msfc.nasa.gov/"
     end
+
+    it "should be valid for an rss1 feed" do
+      @rss1.url.should == "http://xml.com/pub"
+    end
   end
 
   describe '#generator' do
@@ -132,6 +157,10 @@ describe FeedMe::FeedParser do
 
     it "should be valid for an rss2 feed" do
       @rss2.generator.should == "Weblog Editor 2.0"
+    end
+
+    it "should be nil for an rss1 feed" do
+      @rss1.generator.should be_nil
     end
   end
 
