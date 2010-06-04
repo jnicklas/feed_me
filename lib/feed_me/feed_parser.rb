@@ -34,7 +34,7 @@ module FeedMe
           parsers.each do |parser|
             node = root.xpath(parser.root_node).first
             if node
-              return parser.new(node, document.encoding)
+              return parser.new(node)
             end
           end
         end
@@ -44,12 +44,9 @@ module FeedMe
 
     end # class << self
 
-    def initialize(xml, encoding)
+    def initialize(xml)
       @xml = xml
-      @encoding = encoding
     end
-
-    attr_reader :encoding
 
   end
 
