@@ -30,6 +30,7 @@ module FeedMe
           root.add_namespace_definition('atom', 'http://www.w3.org/2005/Atom')
           root.add_namespace_definition('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
           root.add_namespace_definition('rss1', 'http://purl.org/rss/1.0/')
+          root.add_namespace_definition('dc', 'http://purl.org/dc/elements/1.1/')
           parsers.each do |parser|
             node = root.xpath(parser.root_node).first
             if node
@@ -90,10 +91,14 @@ module FeedMe
     property :title, :path => 'rss1:channel/rss1:title'
     property :description, :path => 'rss1:channel/rss1:description'
     property :feed_id, :path => :undefined
-    property :updated_at, :path => :undefined
+    property :updated_at, :path => 'rss1:channel/dc:date', :as => :time
     property :url, :path => 'rss1:channel/rss1:link'
     property :href, :path => 'rss1:channel/@rdf:about'
     property :generator, :path => :undefined
+
+    has_many :entries, :path => 'rss1:channel/rss1:items/rdf:Seq/rdf:li', :use => :Rss1ItemParser
+
     has_one :author, :path => '.', :use => :Rss1PersonParser
+
   end
 end

@@ -68,7 +68,7 @@ private
     return nil unless xml
     association = self.class.properties[name]
     
-    nodes = xml.xpath("./#{association[:path]}")
+    nodes = xml.xpath(association[:path].to_s)
     parser = FeedMe.const_get(association[:use].to_s)
     
     nodes.map do |node|
@@ -80,7 +80,7 @@ private
     return nil unless xml
     association = self.class.properties[name]
     
-    node = xml.xpath("./#{association[:path]}").first
+    node = xml.xpath(association[:path].to_s).first
     parser = FeedMe.const_get(association[:use].to_s)
     
     parser.new(self, node)
@@ -90,11 +90,11 @@ private
     return nil unless xml
     property = self.class.properties[name]
 
-    values = xml.xpath("./#{property[:path]}").map do |node|
+    values = xml.xpath(property[:path].to_s).map do |node|
       result = extract_result(node, property[:from])
       cast_result(result, property[:as])
     end
-    
+
     case property[:cardinality]
     when :many
       return values
@@ -113,7 +113,7 @@ private
 
   def cast_result(result, as)
     if as == :time
-      Time.parse(result)
+      Time.parse(result).utc
     else
       result
     end

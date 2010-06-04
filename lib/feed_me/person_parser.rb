@@ -19,10 +19,10 @@ module FeedMe
       xml.text.split(/\s+/, 2)[1].to_s[/\((.*?)\)/, 1] if xml
     end
   end
-  
+
   class Rss1PersonParser < PersonParser
     property :email, :path => :undefined
-    property :name, :path => :undefined
+    property :name, :path => 'rss1:channel/dc:creator'
     property :uri, :path => :undefined
   end
 

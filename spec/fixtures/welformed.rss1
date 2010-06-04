@@ -2,6 +2,7 @@
 
 <rdf:RDF 
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
 	xmlns="http://purl.org/rss/1.0/">
 
 	<channel rdf:about="http://www.xml.com/xml/news.rss">
@@ -13,9 +14,16 @@
 			<rdf:Seq>
 				<rdf:li rdf:resource="http://xml.com/pub/2000/08/09/xslt/xslt.html" />
 				<rdf:li rdf:resource="http://xml.com/pub/2000/08/09/rdfdb/index.html" />
+				<rdf:li rdf:resource="http://xml.com/pub/2000/08/09/xmlns/index.html" />
 			</rdf:Seq>
 		</items>
 		<textinput rdf:resource="http://search.xml.com" />
+		
+		<dc:publisher>Foopaq</dc:publisher>
+    <dc:creator>Foopaq (mailto:support@foopaq.se)</dc:creator>
+    <dc:rights>Copyright (c) 2009 Foopaq Media AB</dc:rights>
+    <dc:date>2010-06-03T16:56:42+02:00</dc:date>
+		
 	</channel>
 
 	<image rdf:about="http://xml.com/universal/images/xml_tiny.gif">
@@ -26,7 +34,7 @@
 
 	<item rdf:about="http://xml.com/pub/2000/08/09/xslt/xslt.html">
 		<title>Processing Inclusions with XSLT</title>
-		<link>http://xml.com/pub/2000/08/09/xslt/xslt.html</link>
+		<link>http://google.com/foobar</link>
 		<description>
 			Processing document inclusions with general XML tools can be 
 			problematic. This article proposes a way of preserving inclusion 
@@ -41,6 +49,14 @@
 			Tool and API support for the Resource Description Framework 
 			is slowly coming of age. Edd Dumbill takes a look at RDFDB, 
 			one of the most exciting new RDF toolkits.
+		</description>
+	</item>
+
+	<item rdf:about="http://xml.com/pub/2000/08/09/xmlns/index.html">
+		<title>Fucking around with Namespaces</title>
+		<link>http://xml.com/pub/2000/08/09/xmlns/index.html</link>
+		<description>
+			Namespaces suck, it's the way it is.
 		</description>
 	</item>
 

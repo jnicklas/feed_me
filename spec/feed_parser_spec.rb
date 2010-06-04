@@ -117,8 +117,8 @@ describe FeedMe::FeedParser do
       @rss2.updated_at.should == Time.utc(2003, 6, 10, 9, 41, 1)
     end
 
-    it "should be nil for an rss1 feed" do
-      @rss1.updated_at.should be_nil
+    it "should be taken from dublin core time for an rss1 feed" do
+      @rss1.updated_at.should == Time.utc(2010, 6, 3, 14, 56, 42)
     end
   end
 
@@ -173,8 +173,8 @@ describe FeedMe::FeedParser do
       @rss2.author.name.should == "Mary Jo"
     end
 
-    it "should be nil for an rss1 feed" do
-      @rss1.author.name.should be_nil
+    it "should be taken from dublin core for an rss1 feed" do
+      @rss1.author.name.should == "Foopaq (mailto:support@foopaq.se)"
     end
   end
 
@@ -232,6 +232,20 @@ describe FeedMe::FeedParser do
       @rss2.entries.first.title.should == "Star City"
       @rss2.entries.first.url.should == "http://liftoff.msfc.nasa.gov/news/2003/news-starcity.asp"
       @rss2.entries.first.item_id.should == "http://liftoff.msfc.nasa.gov/2003/06/03.html#item573"
+    end
+
+    it "should return an array of entries for an rss1 feed" do
+      @rss1.entries.should be_an_instance_of(Array)
+    end
+
+    it "should have the correct length for an rss1 feed" do
+      @rss1.should have(3).entries
+    end
+
+    it "should return items that are properly parsed for an rss1 feed" do
+      @rss1.entries.first.title.should == "Processing Inclusions with XSLT"
+      @rss1.entries.first.url.should == "http://google.com/foobar"
+      @rss1.entries.first.item_id.should == "http://xml.com/pub/2000/08/09/xslt/xslt.html"
     end
 
     it "should allow items to be read more than once" do
@@ -324,6 +338,49 @@ describe FeedMe::FeedParser do
 
       author.name.should == "Mary Jo"
       author.email.should == "editor@example.com"
+      author.uri.should be_nil
+    end
+
+    it "should serialize the title of an rss1 feed" do
+      @rss1.to_hash[:title].should == "XML.com"
+    end
+
+    it "should serialize the description of an rss1 feed" do
+      @rss1.to_hash[:description].should == "XML.com features a rich mix of information and services"
+    end
+
+    it "should serialize the feed_id of an rss1 feed" do
+      @rss1.to_hash[:feed_id].should be_nil
+    end
+
+    it "should serialize the updated_at time of an rss1 feed" do
+      @rss1.to_hash[:updated_at].should == Time.utc(2010, 6, 3, 14, 56, 42)
+    end
+
+    it "should serialize the href of an rss1 feed" do
+      @rss1.to_hash[:href].should == "http://www.xml.com/xml/news.rss"
+    end
+
+    it "should serialize the url of an rss1 feed" do
+      @rss1.to_hash[:url].should == "http://xml.com/pub"
+    end
+
+    it "should serialize the generator of an rss1 feed" do
+      @rss1.to_hash[:generator].should be_nil
+    end
+
+    it "should serialize the entries of an rss1 feed" do
+      @rss1.to_hash[:entries].should be_an_instance_of(Array)
+      @rss1.to_hash[:entries].first.title.should == "Processing Inclusions with XSLT"
+      @rss1.to_hash[:entries].first.url.should == "http://google.com/foobar"
+    end
+
+    it "should serialize the author of an rss1 feed" do
+
+      author = @rss1.to_hash[:author]
+
+      author.name.should == "Foopaq (mailto:support@foopaq.se)"
+      author.email.should be_nil
       author.uri.should be_nil
     end
   end
