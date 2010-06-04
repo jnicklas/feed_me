@@ -9,6 +9,8 @@ describe FeedMe::ItemParser do
     @atom = @atom_feed.entries.first
     @rss2_feed = FeedMe::FeedParser.open(fixture('welformed.rss2'))
     @rss2 = @rss2_feed.entries.first
+    @rss1_feed = FeedMe::FeedParser.open(fixture('welformed.rss1'))
+    @rss1 = @rss1_feed.entries.first
   end
 
   describe '#to_hash' do
@@ -25,6 +27,10 @@ describe FeedMe::ItemParser do
     it "should be valid for an rss2 feed" do
       @rss2.title.should == "Star City"
     end
+
+    it "should be valid for an rss1 feed" do
+      @rss1.title.should == "Processing Inclusions with XSLT"
+    end
   end
 
   describe '#content' do
@@ -34,6 +40,10 @@ describe FeedMe::ItemParser do
 
     it "should be valid for an rss2 feed" do
       @rss2.content.should == "This is content"
+    end
+
+    it "should be valid for an rss1 feed" do
+      @rss1.content.should == "Processing document inclusions with general XML tools can be problematic."
     end
   end
 
@@ -45,6 +55,10 @@ describe FeedMe::ItemParser do
     it "should be valid for an rss2 feed" do
       @rss2.item_id.should == "http://liftoff.msfc.nasa.gov/2003/06/03.html#item573"
     end
+
+    it "should be valid for an rss1 feed" do
+      @rss1.item_id.should == "http://xml.com/pub/2000/08/09/xslt/xslt.html"
+    end
   end
 
   describe '#updated_at' do
@@ -55,6 +69,10 @@ describe FeedMe::ItemParser do
     it "should be valid for an rss2 feed" do
       @rss2.updated_at.should == Time.utc(2003, 6, 3, 9, 39, 21)
     end
+
+    it "should be taken from dublin core for an rss1 feed" do
+      @rss1.updated_at.should == Time.utc(2010, 6, 3, 10, 7, 42)
+    end
   end
 
   describe '#url' do
@@ -64,6 +82,10 @@ describe FeedMe::ItemParser do
 
     it "should be valid for an rss2 feed" do
       @rss2.url.should == "http://liftoff.msfc.nasa.gov/news/2003/news-starcity.asp"
+    end
+
+    it "should be valid for an rss1 feed" do
+      @rss1.url.should == "http://google.com/foobar"
     end
   end
 
@@ -81,6 +103,10 @@ describe FeedMe::ItemParser do
     it "should be valid for an rss2 feed" do
       @rss2.author.name.should == "Chuck Norris"
     end
+
+    it "should be taken from dublin core for an rss1 feed" do
+      @rss1.author.name.should == "akeri.se"
+    end
   end
 
   describe '#author.email' do
@@ -91,6 +117,10 @@ describe FeedMe::ItemParser do
     it "should be valid for an rss2 feed" do
       @rss2.author.email.should == "da_man@example.com"
     end
+
+    it "should be nil for an rss1 feed" do
+      @rss1.author.email.should be_nil
+    end
   end
 
   describe '#author.uri' do
@@ -100,6 +130,10 @@ describe FeedMe::ItemParser do
 
     it "should be nil for an rss2 feed" do
       @rss2.author.uri.should be_nil
+    end
+
+    it "should be nil for an rss1 feed" do
+      @rss1.author.uri.should be_nil
     end
   end
 
@@ -152,6 +186,31 @@ describe FeedMe::ItemParser do
       author.email.should == "da_man@example.com"
       author.uri.should be_nil
     end
+
+    it "should serialize the title for an rss1 feed" do
+      @rss1.to_hash[:title].should == "Processing Inclusions with XSLT"
+    end
+
+    it "should serialize the item_id for an rss1 feed" do
+      @rss1.to_hash[:item_id].should == "http://xml.com/pub/2000/08/09/xslt/xslt.html"
+    end
+
+    it "should serialize updated_at for an rss1 feed" do
+      @rss1.to_hash[:updated_at].should == Time.utc(2010, 6, 3, 10, 7, 42)
+    end
+
+    it "should serialize the url for an rss1 feed" do
+      @rss1.to_hash[:url].should == "http://google.com/foobar"
+    end
+
+    it "should serialize the author of an rss1 feed" do
+      author = @rss1.to_hash[:author]
+
+      author.name.should == "akeri.se"
+      author.email.should be_nil
+      author.uri.should be_nil
+    end
+
   end
 
 end
@@ -163,6 +222,8 @@ describe "Without an author", FeedMe::ItemParser do
     @atom = @atom_feed.entries[1]
     @rss2_feed = FeedMe::FeedParser.open(fixture('welformed.rss2'))
     @rss2 = @rss2_feed.entries[1]
+    @rss1_feed = FeedMe::FeedParser.open(fixture('welformed.rss1'))
+    @rss1 = @rss1_feed.entries[1]
   end
 
   describe '#author.name' do
@@ -172,6 +233,10 @@ describe "Without an author", FeedMe::ItemParser do
 
     it "should be valid for an rss2 feed" do
       @rss2.author.name.should be_nil
+    end
+
+    it "should be valid for an rss1 feed" do
+      @rss1.author.name.should be_nil
     end
   end
 

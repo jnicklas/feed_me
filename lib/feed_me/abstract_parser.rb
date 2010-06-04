@@ -115,7 +115,7 @@ private
     if as == :time
       Time.parse(result).utc
     else
-      result
+      result.to_s.strip
     end
   end
 

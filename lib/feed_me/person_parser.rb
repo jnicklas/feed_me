@@ -22,7 +22,7 @@ module FeedMe
 
   class Rss1PersonParser < PersonParser
     property :email, :path => :undefined
-    property :name, :path => 'rss1:channel/dc:creator'
+    property :name, :path => 'dc:creator'
     property :uri, :path => :undefined
   end
 

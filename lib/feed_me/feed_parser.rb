@@ -98,7 +98,7 @@ module FeedMe
 
     has_many :entries, :path => 'rss1:channel/rss1:items/rdf:Seq/rdf:li', :use => :Rss1ItemParser
 
-    has_one :author, :path => '.', :use => :Rss1PersonParser
+    has_one :author, :path => 'rss1:channel', :use => :Rss1PersonParser
 
   end
 end

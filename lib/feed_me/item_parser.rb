@@ -25,13 +25,12 @@ module FeedMe
 
   class Rss1ItemParser < ItemParser
     property :title, :path => 'rss1:title'
-    # property :updated_at, :path => :pubDate, :as => :time
+    property :updated_at, :path => 'dc:date', :as => :time
     property :item_id, :path => '@rdf:about'
     property :url, :path => 'rss1:link'
-    # property :content, :path => :description
-    # property :categories, :path => :category, :cardinality => :many
-    #
-    # has_one :author, :use => :Rss2PersonParser
+    property :content, :path => 'rss1:description'
+
+    has_one :author, :path => '.', :use => :Rss1PersonParser
 
     def xml
       resource = super.xpath('@rdf:resource').to_s
