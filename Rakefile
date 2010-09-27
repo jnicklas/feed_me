@@ -2,7 +2,7 @@ require 'rubygems'
 require 'rake/gempackagetask'
 require 'spec/rake/spectask'
 
-file_list = FileList['spec/*_spec.rb']
+file_list = FileList[File.join(File.dirname(__FILE__),'spec/*_spec.rb')]
 
 namespace :spec do
   desc "Run all examples with RCov"

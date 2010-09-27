@@ -8,6 +8,7 @@ module FeedMe
     property :item_id, :path => "atom:id"
     property :url, :path => "atom:link[@rel='alternate']", :from => :href
     property :content, :path => 'atom:content'
+    property :enclosure, :path => "atom:link[@rel='enclosure']", :from => :href
 
     has_one :author, :path => 'atom:author', :use => :AtomPersonParser
   end
@@ -19,6 +20,7 @@ module FeedMe
     property :url, :path => :link
     property :content, :path => :description
     property :categories, :path => :category, :cardinality => :many
+    property :enclosure, :path => :enclosure, :from => :url
 
     has_one :author, :use => :Rss2PersonParser
   end
@@ -29,6 +31,7 @@ module FeedMe
     property :item_id, :path => '@rdf:about'
     property :url, :path => 'rss1:link'
     property :content, :path => 'rss1:description'
+    property :enclosure, :path => :undefined
 
     has_one :author, :path => '.', :use => :Rss1PersonParser
 

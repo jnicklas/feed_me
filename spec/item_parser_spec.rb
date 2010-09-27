@@ -46,6 +46,20 @@ describe FeedMe::ItemParser do
       @rss1.content.should == "Processing document inclusions with general XML tools can be problematic."
     end
   end
+  
+  describe '#enclosure' do
+    it "should be valid for an atom feed" do
+      @atom.enclosure.should == "http://example.org/audio/ph34r_my_podcast.mp3"
+    end
+
+    it "should be valid for an rss2 feed" do
+      @rss2.enclosure.should == "http://www.example.org/myaudiofile.mp3"
+    end
+
+    it "should be nil for an rss1 feed" do
+      @rss1.enclosure.should be_nil
+    end
+  end
 
   describe '#item_id' do
     it "should be valid for an atom feed" do

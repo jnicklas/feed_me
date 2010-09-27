@@ -21,6 +21,7 @@
       <guid>http://liftoff.msfc.nasa.gov/2003/06/03.html#item573</guid>
       <category>news</category>
       <category>chuck</category>
+      <enclosure url="http://www.example.org/myaudiofile.mp3" length="12345" type="audio/mpeg" />
     </item>
     <item>
       <title>Space Exploration</title>
